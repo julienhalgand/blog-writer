@@ -1,0 +1,16 @@
+{
+    "name": "julienhalgand/router",
+    "description": "Most simple Router API in php",
+    "authors": [
+        {
+            "name": "Julien Halgand",
+            "email": "julien.halgand1@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "require": {}
+}
