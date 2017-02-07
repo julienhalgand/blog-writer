@@ -47,7 +47,7 @@ class Router {
     }
     public function url($name, $params = []){
         if(!isset($this->namedRoutes[$name])){
-            throw new RouterException("No route matches");
+           return header("HTTP/1.0 404 Not Found");
         }
         $this->namedRoutes[$name]->getUrl($params);
     }
