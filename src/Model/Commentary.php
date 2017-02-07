@@ -4,7 +4,7 @@ namespace App\Model;
  
 class Commentary {
     private $id;
-    private $article; //one to many article
+    private $post; //one to many article
     private $commentary; //one to one commentary
     private $reports;
     private $content;

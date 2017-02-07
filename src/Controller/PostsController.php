@@ -4,6 +4,6 @@ namespace App\Controller;
  
 class PostsController {
     public function show($slug, $id){
-        echo("euinrteui $id $slug ".$_GET['page']);
+        include(__DIR__."/../Views/layout.php");
     }
 }

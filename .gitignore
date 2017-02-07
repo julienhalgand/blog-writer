@@ -1,0 +1,17 @@
+# Ignore everything
+/*
+
+# Files
+!.gitignore
+!.gitattributes
+!.editorconfig
+!index.php
+!composer.json
+
+# Ignore those Files
+**/.DS_Store
+**.log
+
+# Folders
+!src/**
+!vendor/**

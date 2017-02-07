@@ -36,8 +36,7 @@ class Route {
         return '([^/]+)';
     }
 
-    public function call(){
-        
+    public function call(){        
         if(is_string($this->callable)){
             $params = explode('.', $this->callable);
             $controller = "App\\Controller\\".$params[0]."Controller";
