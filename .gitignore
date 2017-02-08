@@ -16,5 +16,5 @@
 **.log
 
 # Folders
-!src/**
-!vendor/**
+!src/
+!vendor/
