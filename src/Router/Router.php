@@ -11,19 +11,21 @@ class Router {
     public function __construct($url){
         $this->url = $url;
     }
-    public function get($path, $callable, $name){
-        return $this->add($path, $callable, $name, 'GET');
+    public function get($path, $rules, $callable, $name){
+        return $this->add($path, $rules, $callable, $name, 'GET');
     }
-    public function post($path, $callable, $name){
-      return $this->add($path, $callable, $name, 'POST');
+    public function post($path, $rules, $callable, $name){
+      return $this->add($path, $rules, $callable, $name, 'POST');
     }
-    public function put($path, $callable, $name){
-        return $this->add($path, $callable, $name, 'PUT');
+    public function put($path, $rules, $callable, $name){
+        return $this->add($path, $rules, $callable, $name, 'PUT');
     }
-    public function delete($path, $callable, $name){
-      return $this->add($path, $callable, $name, 'DELETE');
+    public function delete($path, $rules, $callable, $name){
+      return $this->add($path, $rules, $callable, $name, 'DELETE');
     }
-    private function add($path, $callable, $name, $method){
+    private function add($path, $rules, $callable, $name, $method){
+        $policiesManager = new \App\Policies\PoliciesManager($rules);
+        $policiesManager->applyTheLaw();
         $route = new Route($path,$callable);
         $this->routes[$method][] = $route;
         if($name){
