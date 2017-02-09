@@ -5,9 +5,10 @@ ini_set('display_errors','on');
 error_reporting(E_ALL);
 //phpinfo();
 //*/
-require 'vendor/autoload.php';
-
 const path = "/home/usr/src/";
+require '/home/usr/vendor/autoload.php';
+
+
 
 session_start();
 
@@ -36,7 +37,10 @@ $router->delete('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.delet
 /****Controllers*****/
 
 /****Files****/
-$router->get('/assets/css/:file',[] , 'Files.css', 'Css files')->with('file', '([a-z]+.css)');
+$router->get('/assets/css/:file',[] , function($file){
+    header("Content-type: text/css");
+    include(path."assets/css/".$file);
+}, 'Css files')->with('file', '([a-z]+.css)');
 $router->get('/assets/js/:file',[] , 'Files.js', 'Js files')->with('file', '([a-z]+.js)');
 $router->get('/assets/images/:file',[] , 'Files.png', 'Images files')->with('file', '([a-z\-0-9]+.png)');
 $router->get('/assets/images/:file',[] , 'Files.jpg', 'Images files')->with('file', '([a-z\-0-9]+.jpg)');

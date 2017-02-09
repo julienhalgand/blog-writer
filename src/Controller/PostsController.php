@@ -1,15 +1,18 @@
 <?php
-
 namespace App\Controller;
 
-$loader = new Twig_Loader_Filesystem("/../Views/Posts");
-$twig = new Twig_Environment($loader, [
-    'cache' =>  false //'/../tmp' 
-]);
- 
 class PostsController {
-    public function index($slug, $id){
-        echo $twig->render('index.twig');
+    private $loader;
+    private $twig;
+
+    public function __construct(){
+        $this->loader = new \Twig_Loader_Filesystem(path."Views/Posts");
+        $this->twig =   new \Twig_Environment($this->loader, 
+        ['cache' =>  false //'/../tmp' 
+        ]);
+    }
+    public function index(){
+        echo $this->twig->render('index.twig');
     }
     public function view($slug, $id){
         echo $twig->render('view.twig');
