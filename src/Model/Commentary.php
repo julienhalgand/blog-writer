@@ -4,9 +4,10 @@ namespace App\Model;
  
 class Commentary {
     private $id;
-    private $post; //one to many article
+    private $post; //many to one post
     private $commentary; //one to one commentary
     private $reports;
+    private $level;
     private $content;
 
     public function __construct($id,$article,$commentary,$reporting,$content){

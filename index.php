@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
+/**/
 ini_set('display_errors','on');
 error_reporting(E_ALL);
+//phpinfo();
+//*/
 require 'vendor/autoload.php';
 
-const path = "/home/usr/";
+const path = "/home/usr/src/";
 
 session_start();
 
@@ -12,14 +16,23 @@ if (!isset($_GET['url'])){
 }
 $router = new App\Router\Router($_GET['url']);
 
+$loader = new Twig_Loader_Filesystem(path."Views");
+$twig = new Twig_Environment($loader, [
+    'cache' =>  false //'/../tmp' 
+]);
+
 /****Simple routes*****/
-$router->get('/',['flash'], function(){ include(__DIR__."/src/Views/layout.php"); },'Accueil');
+$router->get('/',['flash'], function(){ global $twig; echo $twig->render('home.twig'); },'Accueil');
 /****Simple routes*****/
 
 /****Controllers*****/
-$router->get('/posts/:slug-:id',['flash'] ,'Posts.show' ,'posts.show')->with('id', '[0-9]+')->with('slug', '[a-z\-0-9]+');
-$router->get('/posts/:id',['flash'] , 'Posts.show', 'Article ');
-$router->post('/posts/:id',['flash'] , function($id){ echo 'Poster l\'articles ' . $id; }, 'posts.create');
+$router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Posts.index' ,'Index admin');
+$router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Posts.add' ,'Index admin');
+$router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Posts.add' ,'Index admin')->with('id', '[0-9]+');
+$router->get('/post/:id',['flash'] , 'Posts.view', 'Voir post ')->with('id', '[0-9]+');
+$router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.create' , "Création d'un post")->with('id', '[0-9]+');
+$router->put('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.update' , "Update d'un post")->with('id', '[0-9]+');
+$router->delete('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.delete' , "Delete d'un post")->with('id', '[0-9]+');
 /****Controllers*****/
 
 /****Files****/
