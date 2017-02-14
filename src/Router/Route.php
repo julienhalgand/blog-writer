@@ -18,23 +18,18 @@ class Route {
         return $this;
     }
     public function match($url){
+      
         $url = trim($url, '/');
         $path = preg_replace_callback('#:([\w]+)#',[$this, 'paramMatch'], $this->path);
-        print($path."</br>");
-                
-        
         $regex = '#^'.$path.'$#';
-        print($regex."</br>");
-        print($url);
-        if(preg_match($regex, $url, $matches)){
-
-            array_shift($matches);
-            print($matches);
-            $this->matches = $matches;
-            return true;
+        //print($regex."</br>");
+        //print($path."</br>");
+        if(!preg_match($regex, $url, $matches)){
+            return false;
         }
-
-        return false;
+        array_shift($matches);
+        $this->matches = $matches;
+        return true;
     }
 
     private function paramMatch($match){
