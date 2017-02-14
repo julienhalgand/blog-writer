@@ -20,13 +20,21 @@ class Route {
     public function match($url){
         $url = trim($url, '/');
         $path = preg_replace_callback('#:([\w]+)#',[$this, 'paramMatch'], $this->path);
-        $regex = "#^$path$#i";
-        if(!preg_match($regex, $url, $matches)){
-            return false;
+        print($path."</br>");
+                
+        
+        $regex = '#^'.$path.'$#';
+        print($regex."</br>");
+        print($url);
+        if(preg_match($regex, $url, $matches)){
+
+            array_shift($matches);
+            print($matches);
+            $this->matches = $matches;
+            return true;
         }
-        array_shift($matches);
-        $this->matches = $matches;
-        return true;
+
+        return false;
     }
 
     private function paramMatch($match){

@@ -6,7 +6,6 @@ class Post {
     private $id;
     private $slug;
     private $title;
-    private $tags;
     private $content;
     private $commentaries; //one to many commentary
 

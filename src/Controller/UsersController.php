@@ -1,18 +1,17 @@
 <?php
 namespace App\Controller;
 
-class PostsController {
+class UsersController {
     private $loader;
     private $twig;
 
     public function __construct(){
-        $this->loader = new \Twig_Loader_Filesystem(path."Views/Posts");
+        $this->loader = new \Twig_Loader_Filesystem(path."Views/Users");
         $this->twig =   new \Twig_Environment($this->loader, 
         ['cache' =>  false //'/../tmp' 
         ]);
     }
     public function index(){
-        print("uitsc'itsu");
         echo $this->twig->render('index.twig');
     }
     public function view($slug, $id){

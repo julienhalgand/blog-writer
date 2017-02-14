@@ -8,9 +8,9 @@ class User {
     private $encryptedPassword;
     private $posts; // many to one post
 
-    public function __construct($id,$slug,$title,$tags,$content){
+    public function __construct($id,$email,$title,$tags,$content){
         $this->id = $id;
-        $this->slug = $slug;
+        $this->email = $email;
         $this->title = $title;
         $this->tags = $tags;
         $this->content = $content;
@@ -19,8 +19,8 @@ class User {
     public function getId(){
         return $this->id;
     }
-    public function getSlug(){
-        return $this->slug;
+    public function getEmail(){
+        return $this->email;
     }
     public function getTitle(){
         return $this->title;
