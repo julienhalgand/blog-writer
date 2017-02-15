@@ -12,7 +12,6 @@ class PostsController {
         ]);
     }
     public function index(){
-        print("uitsc'itsu");
         echo $this->twig->render('Posts/index.twig');
     }
     public function view(){

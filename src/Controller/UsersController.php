@@ -6,22 +6,22 @@ class UsersController {
     private $twig;
 
     public function __construct(){
-        $this->loader = new \Twig_Loader_Filesystem(path."Views/Users");
+        $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
         ['cache' =>  false //'/../tmp' 
         ]);
     }
     public function index(){
-        echo $this->twig->render('index.twig');
+        echo $this->twig->render('Users/index.twig');
     }
-    public function view($slug, $id){
-        echo $twig->render('view.twig');
+    public function profil($slug, $id){
+        echo $twig->render('Users/profil.twig');
     }
-    public function add($slug, $id){
-        echo $twig->render('add.twig');
+    public function signup($slug, $id){
+        echo $twig->render('Users/signup.twig');
     }
-    public function edit($slug, $id){
-        echo $twig->render('edit.twig');
+    public function signin($slug, $id){
+        echo $twig->render('Users/signin.twig');
     }
     public function create($slug, $id){
         
