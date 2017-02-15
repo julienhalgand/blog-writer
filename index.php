@@ -8,9 +8,11 @@ error_reporting(E_ALL);
 const path = "/var/www/html/src/";
 require 'vendor/autoload.php';
 
-if (!isset($_GET['url'])){
+
+if (!array_key_exists('url',$_GET)){
     $_GET['url'] = '/';
 }
+
 $router = new App\Router\Router($_GET['url']);
 
 $loader = new Twig_Loader_Filesystem(path."Views");
