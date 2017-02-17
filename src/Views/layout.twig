@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
+    <title>{{title}}</title>
    <link rel="stylesheet" href="/assets/css/app.css">
     <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=lb151pf67o50hrv3cdh7qlycoksi97masptf1tpt7ldb6kh8"></script>
     <script>tinymce.init({ selector:'textarea#tinymce' });</script>
   </head>
   <body>
-    
     <!-- Start Top Bar -->
     <div class="top-bar">
       <div class="top-bar-left">
@@ -17,16 +16,40 @@
           <li class="menu-text">Jean Forteroche</li>
         </ul>
       </div>
-      <div class="top-bar-right">
-        <ul class="menu">
-          <li><a href="/posts">Tous les posts</a></li>
-          <li><a href="#">Two</a></li>
-          <li><a href="#">Three</a></li>
-          <li><a href="#">Four</a></li>
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li>
+            <a href="#">Posts</a>
+            <ul class="menu vertical">
+              <li><a href="/posts">Tous les posts</a></li>
+              <li><a href="/post/add">Ajouter un post</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Commentaires</a>
+            <ul class="menu vertical">
+              <li><a href="/commentaries">Tous les commentaires</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Utilisateurs</a>
+            <ul class="menu vertical">
+              <li><a href="/users">Tous les posts</a></li>
+            </ul>
+          </li>
+
+          <li><a href="/user/profil">Profil</a></li>
+          <li><a href="/session/signout">Se déconnecter</a></li>
         </ul>
       </div>
     </div>
     <!-- End Top Bar -->
+    <div class="row">
+      <div class="large-12 colums">
+        <h1>{{title}}</h1>
+      </div>
+    </div>
+    
  {% block content %}
  {% endblock %}
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
