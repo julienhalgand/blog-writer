@@ -1,4 +1,5 @@
    {% extends 'layout.twig' %}
    {% block content %}
-   Add post
+    {% import 'forms.twig' as forms %}
+    {{forms.addPost('/post/create')}}
    {% endblock %}

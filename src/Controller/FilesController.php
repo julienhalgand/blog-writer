@@ -11,6 +11,14 @@ class FilesController {
             return header("HTTP/1.0 404 Not Found");
         }
     }
+    public function jsVendor($filePath){
+        if (file_exists(path."assets/js/vendor/".$filePath)){           
+            header("Content-type: application/js");
+            include(path."assets/js/vendor/".$filePath);
+        }else{
+            return header("HTTP/1.0 404 Not Found");
+        }
+    }
     public function css($filePath){
         if (file_exists(path."assets/css/".$filePath)){
             header("Content-type: text/css");

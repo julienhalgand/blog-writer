@@ -12,19 +12,19 @@ class PostsController {
         ]);
     }
     public function index(){
-        echo $this->twig->render('Posts/index.twig');
+        echo $this->twig->render('Posts/index.twig', array('title' => 'Tous les posts'));
     }
     public function view(){
-        echo $this->twig->render('Posts/view.twig');
+        echo $this->twig->render('Posts/view.twig', array('title' => ''));
     }
     public function add(){
-        echo $this->twig->render('Posts/add.twig');
+        echo $this->twig->render('Posts/add.twig', array('title' => 'Créer un post'));
     }
     public function edit(){
-        echo $this->twig->render('Posts/edit.twig');
+        echo $this->twig->render('Posts/edit.twig', array('title' => ''));
     }
-    public function create($slug, $id){
-        
+    public function create(){
+        var_dump($_POST);
     }
     public function update($slug, $id){
         

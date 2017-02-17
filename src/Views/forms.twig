@@ -1,0 +1,24 @@
+{% macro addPost(action) %}
+<form action={{action}}  method="POST" data-abide novalidate> 
+  <div data-abide-error class="alert callout" style="display: none;">
+    <p><i class="fi-alert"></i> There are some errors in your form.</p>
+  </div>
+    {% import 'inputs.twig' as inputs %}
+    <div class="row">
+      <div class="large-12 columns">
+        {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required')}}           
+      </div>
+      <div class="large-12 columns">
+        {{inputs.inputTextTinyMCE("content",'Contenu du post','Vous devez saisir un texte valide.','Saisissez un texte','required')}}           
+      </div>
+    </div>
+    <div class="row">
+      <fieldset class="large-6 columns">
+        <button class="button" type="submit" value="Submit">Créer un article</button>
+      </fieldset>
+      <fieldset class="large-6 columns">
+        <button class="button" type="reset" value="Reset">Réinitialiser</button>
+      </fieldset>
+    </div>
+</form>
+{% endmacro %}

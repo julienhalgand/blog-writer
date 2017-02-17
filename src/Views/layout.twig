@@ -1,19 +1,44 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<html class="no-js" lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+   <link rel="stylesheet" href="/assets/css/app.css">
+    <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=lb151pf67o50hrv3cdh7qlycoksi97masptf1tpt7ldb6kh8"></script>
+    <script>tinymce.init({ selector:'textarea#tinymce' });</script>
   </head>
   <body>
+    
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Jean Forteroche</li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li><a href="/posts">Tous les posts</a></li>
+          <li><a href="#">Two</a></li>
+          <li><a href="#">Three</a></li>
+          <li><a href="#">Four</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- End Top Bar -->
  {% block content %}
  {% endblock %}
-    <script   src="https://code.jquery.com/jquery-3.1.1.slim.min.js"   integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="   crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/assets/js/app.js"></script>
-    <script type='text/javascript'>//<![CDATA[
+    <script>
+      $(document).foundation();
+    </script>
+        <script type='text/javascript'>//<![CDATA[
 ;document.write("<script defer src='//HOST:3000/socket.io/socket.io.js'><\/script><script defer src='//HOST:3001/client/browser-sync-client.0.9.1.js'><\/script>".replace(/HOST/g, location.hostname));
 //]]></script>
   </body>
 </html>
+
+
+
