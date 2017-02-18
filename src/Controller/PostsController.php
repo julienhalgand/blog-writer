@@ -4,7 +4,7 @@ namespace App\Controller;
 class PostsController {
     private $loader;
     private $twig;
-
+    private $entries;
     public function __construct(){
         $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
@@ -24,12 +24,21 @@ class PostsController {
         echo $this->twig->render('Posts/edit.twig', array('title' => ''));
     }
     public function create(){
-        var_dump($_POST);
+        $escapedEntries = $this->escape(['title','content']);
+        
+        var_dump($escapedEntries);
     }
     public function update($slug, $id){
         
     }
     public function delete($slug, $id){
         
+    }
+    private function escape(array $keysToEscape){
+        $escapedEntries = [];
+        foreach ($keysToEscape as $key){
+            $escapedEntries[$key] = htmlSpecialChars($_POST[$key]);
+        }
+        return $escapedEntries;
     }
 }

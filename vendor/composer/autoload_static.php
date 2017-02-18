@@ -15,6 +15,10 @@ class ComposerStaticInit0b34fe41ddf461d0a85b227d3e0dba86
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
         ),
+        'R' => 
+        array (
+            'Respect\\Validation\\' => 19,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -25,6 +29,10 @@ class ComposerStaticInit0b34fe41ddf461d0a85b227d3e0dba86
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Respect\\Validation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/respect/validation/library',
         ),
         'App\\' => 
         array (

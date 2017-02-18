@@ -9,16 +9,16 @@
 {% endmacro %}
 {% macro inputText(name,placeholder,errorMessage,helpText,required) %}
       <label>Champ requis
-        <input name="{{name}}" type="text" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}} pattern="alpha_numeric">
+        <input name="{{name}}" type="text" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}}>
         <span class="form-error">
           {{errorMessage}}
         </span>
       </label>
       <p class="help-text" id="exampleHelpText">{{helpText}}</p>
 {% endmacro %}
-{% macro inputTextTinyMCE(name,placeholder,errorMessage,helpText,required) %}
+{% macro inputTextTinyMCE(name,placeholder,errorMessage) %}
       <label>Champs requis
-      <textarea name="{{name}}" id="tinymce" aria-describedby="exampleHelpText" {{required}} pattern="alpha_numeric">{{placeholder}}</textarea>
+      <textarea name="{{name}}" id="tinymce" aria-describedby="exampleHelpText" {{required}}>{{placeholder}}</textarea>
         <span class="form-error">
           {{errorMessage}}
         </span>
