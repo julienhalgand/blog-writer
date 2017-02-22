@@ -9,11 +9,9 @@ class Post {
     private $content;
     private $commentaries; //one to many commentary
 
-    public function __construct($id,$slug,$title,$tags,$content){
-        $this->id = $id;
+    public function __construct($slug,$title,$content){
         $this->slug = $slug;
         $this->title = $title;
-        $this->tags = $id;
         $this->content = $content;
     }
 

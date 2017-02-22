@@ -1,17 +1,22 @@
 <?php
+namespace App\PDOManager;
 
-namespace App\Controller;
-
-class PDOController{
+class PDOManager{
     private $PDO;
 
     public function __construct(){
-        $this->PDO = new PDO("mysql:dbname=blog_writer;host=localhost","root","");
-        $this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->PDO->setAttribute(PDO::ATTR_DEFAULT, PDO::FETCH_OBJ);
+        try {
+            $this->PDO = new \PDO('mysql:host=localhost;port:3306;dbname=blog_writer', 'root', 'root');
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
 
     public function find(string $obj, string $limit){
-        $this->PDO->query("SELECT * FROM ".$obj." LIMIT ".$limit);
+        return $this->PDO->query("SELECT * FROM ".$obj." LIMIT ".$limit);
+    }
+    public function findOne(string $obj, string $id){
+        return $this->PDO->query("SELECT * FROM ".$obj." LIMIT 1");
     }
 }

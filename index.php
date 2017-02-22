@@ -5,14 +5,14 @@ ini_set('display_errors','on');
 error_reporting(E_ALL);
 //phpinfo();
 //*/
-const path = "/var/www/html/src/";
+const path = "/Users/JulienHalgand/Documents/Projets/Projet3/blog/src/";
 require 'vendor/autoload.php';
 
 
 if (!array_key_exists('url',$_GET)){
     $_GET['url'] = '/';
 }
-
+var_dump( $_SERVER['DOCUMENT_ROOT'] );
 $router = new App\Router\Router($_GET['url']);
 
 $loader = new Twig_Loader_Filesystem(path."Views");

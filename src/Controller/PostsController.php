@@ -5,13 +5,17 @@ class PostsController {
     private $loader;
     private $twig;
     private $entries;
+    private $PDOManager;
     public function __construct(){
         $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
         ['cache' =>  false //'/../tmp' 
         ]);
+        $this->PDOManager = new \App\PDOManager();
     }
     public function index(){
+       $usersObj = $this->PDOManager->find("user","10");
+       var_dump($usersObj);
         echo $this->twig->render('Posts/index.twig', array('title' => 'Tous les posts'));
     }
     public function view(){
@@ -25,8 +29,7 @@ class PostsController {
     }
     public function create(){
         $escapedEntries = $this->escape(['title','content']);
-        
-        var_dump($escapedEntries);
+        var_dump($dbh);
     }
     public function update($slug, $id){
         
