@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-class CommentariesController {
+class ReportController {
     private $loader;
     private $twig;
 
@@ -12,10 +12,7 @@ class CommentariesController {
         ]);
     }
     public function index(){
-        echo $this->twig->render('Commentaries/index.twig');
-    }
-    public function edit($slug, $id){
-        echo $twig->render('Commentaries/edit.twig');
+        echo $this->twig->render('Report/index.twig');
     }
     public function create($slug, $id){
         

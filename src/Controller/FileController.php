@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-class FilesController {
+class FileController {
     public function js($filePath){
         if (file_exists(path."assets/js/".$filePath)){
             header("Content-type: application/js");

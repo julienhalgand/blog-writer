@@ -15,12 +15,6 @@ class Post {
         $this->title = $title;
         $this->content = $content;
     }
-    public function validate(){
-        $postValidator = v::attribute('title', v::stringType()->length(1,50))
-                        ->attribute('slug', v::noWhitespace()->stringType()->length(1,50))
-                        ->attribute('content', v::stringType()->length(1,65535));
-        $postValidator->validate();
-    }
     public function getId(){
         return $this->id;
     }

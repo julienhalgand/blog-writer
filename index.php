@@ -23,22 +23,25 @@ $router->get('/',['flash'], function(){ global $twig; echo $twig->render('home.t
 /****Simple routes*****/
 
 /****Controllers*****/
-$router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Posts.index' ,'Index posts');
-$router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Posts.add' ,'Add post');
-$router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Posts.create' ,'Create post');
-$router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Posts.edit' ,'Edit post')->with('id', '[0-9]+');
-$router->get('/post/:id',['flash'] , 'Posts.view', 'Voir post ')->with('id', '[0-9]+');
-$router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.create' , "Création d'un post")->with('id', '[0-9]+');
-$router->put('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.update' , "Update d'un post")->with('id', '[0-9]+');
-$router->delete('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Posts.delete' , "Delete d'un post")->with('id', '[0-9]+');
+$router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Post.index' ,'Index posts');
+$router->get('/users',['flash','isAuthenticated','isAdmin'] ,'Users.index' ,'Index users');
+$router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Post.add' ,'Add post');
+$router->get('/user/signup',['flash'] ,'User.signup' ,'Signup');
+$router->get('/user/signin',['flash'] ,'User.signin' ,'Signin');
+$router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
+$router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
+$router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
+$router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
+$router->put('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');
+$router->delete('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.delete' , "Delete d'un post")->with('id', '[0-9]+');
 /****Controllers*****/
 
 /****Files****/
-$router->get('/assets/css/:file',[] , 'Files.css', 'Css files')->with('file', '([a-z]+.css)');
-$router->get('/assets/js/:file',[] , 'Files.js', 'Js files')->with('file', '([a-z]+.js)');
-$router->get('/assets/js/vendor/:file',[] , 'Files.jsVendor', 'Js vendor files')->with('file', '([a-z]+.js)');
-$router->get('/assets/images/:file',[] , 'Files.png', 'Images files')->with('file', '([a-z\-0-9]+.png)');
-$router->get('/assets/images/:file',[] , 'Files.jpg', 'Images files')->with('file', '([a-z\-0-9]+.jpg)');
+$router->get('/assets/css/:file',[] , 'File.css', 'Css files')->with('file', '([a-z]+.css)');
+$router->get('/assets/js/:file',[] , 'File.js', 'Js files')->with('file', '([a-z]+.js)');
+$router->get('/assets/js/vendor/:file',[] , 'File.jsVendor', 'Js vendor files')->with('file', '([a-z]+.js)');
+$router->get('/assets/images/:file',[] , 'File.png', 'Images files')->with('file', '([a-z\-0-9]+.png)');
+$router->get('/assets/images/:file',[] , 'File.jpg', 'Images files')->with('file', '([a-z\-0-9]+.jpg)');
 /****Files****/
 
 $router->run();
