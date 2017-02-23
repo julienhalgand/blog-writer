@@ -1,21 +1,22 @@
 <?php
-namespace App\Controller;
 
+
+namespace App\Controller;
+use Respect\Validation\Validator as v;
 class PostsController {
     private $loader;
     private $twig;
     private $entries;
-    private $PDOManager;
+    private $PostsManager;
     public function __construct(){
         $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
         ['cache' =>  false //'/../tmp' 
         ]);
-        $this->PDOManager = new \App\PDOManager();
+        $this->PostsManager = new \App\PDOManager\PostsManager();
     }
     public function index(){
        $usersObj = $this->PDOManager->find("user","10");
-       var_dump($usersObj);
         echo $this->twig->render('Posts/index.twig', array('title' => 'Tous les posts'));
     }
     public function view(){
@@ -28,8 +29,19 @@ class PostsController {
         echo $this->twig->render('Posts/edit.twig', array('title' => ''));
     }
     public function create(){
-        $escapedEntries = $this->escape(['title','content']);
-        var_dump($dbh);
+        $inputs = ['title','content'];
+        $this->isDefine($inputs);
+        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
+            echo("Le format du titre est incorrect.");
+        }        
+        if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
+            echo("Le format du contenus de l'article est incorrect.");            
+        }       
+        $arrayObj = [];
+        foreach($inputs as $input){
+            $arrayObj[$input] = $_POST[$input];
+        }
+        $this->PostsManager->createPost($arrayObj);
     }
     public function update($slug, $id){
         
@@ -37,11 +49,12 @@ class PostsController {
     public function delete($slug, $id){
         
     }
-    private function escape(array $keysToEscape){
-        $escapedEntries = [];
-        foreach ($keysToEscape as $key){
-            $escapedEntries[$key] = htmlSpecialChars($_POST[$key]);
+    private function isDefine(array $inputs){
+        foreach($inputs as $input){           
+            if(!isset($_POST[$input])){
+               echo ($input." n'est pas définis.");
+               break;
+            }
         }
-        return $escapedEntries;
     }
 }

@@ -8,14 +8,12 @@ error_reporting(E_ALL);
 const path = "/Users/JulienHalgand/Documents/Projets/Projet3/blog/src/";
 require 'vendor/autoload.php';
 
-
 if (!array_key_exists('url',$_GET)){
     $_GET['url'] = '/';
 }
-var_dump( $_SERVER['DOCUMENT_ROOT'] );
 $router = new App\Router\Router($_GET['url']);
 
-$loader = new Twig_Loader_Filesystem(path."Views");
+$loader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT']."/src/Views");
 $twig = new Twig_Environment($loader, [
     'cache' =>  false //'/../tmp' 
 ]);
