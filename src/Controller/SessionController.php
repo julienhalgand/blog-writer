@@ -1,19 +1,14 @@
 <?php
 namespace App\Controller;
 
-class SessionController {
-    private $loader;
-    private $twig;
-    
+use Respect\Validation\Validator as v;
+
+class SessionController extends ObjectController{
+
     public function __construct(){
-        $this->loader = new \Twig_Loader_Filesystem(path."Views");
-        $this->twig =   new \Twig_Environment($this->loader, 
-        ['cache' =>  false //'/../tmp' 
-        ]);
+        parent::__construct("Session");
     }
-    public function signin(){
-        
-    }
+
     public function create($slug, $id){
         
     }

@@ -37,7 +37,29 @@
     </div>
     <div class="row">
       <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Créer un article</button>
+        <button class="button" type="submit" value="Submit">Créer un compte</button>
+      </fieldset>
+      <fieldset class="large-6 columns">
+        <button class="button" type="reset" value="Reset">Réinitialiser</button>
+      </fieldset>
+    </div>
+</form>
+{% endmacro %}
+{% macro addSession(action) %}
+<form action={{action}}  method="POST" data-abide novalidate> 
+  <div data-abide-error class="alert callout" style="display: none;">
+    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+  </div>
+    {% import 'inputs.twig' as inputs %}
+    <div class="row">
+      <div class="large-12 columns">
+        {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
+        {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+      </div>
+    </div>
+    <div class="row">
+      <fieldset class="large-6 columns">
+        <button class="button" type="submit" value="Submit">Se connecter</button>
       </fieldset>
       <fieldset class="large-6 columns">
         <button class="button" type="reset" value="Reset">Réinitialiser</button>
