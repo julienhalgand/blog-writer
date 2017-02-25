@@ -10,40 +10,36 @@
   </head>
   <body>
     <!-- Start Top Bar -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <ul class="menu">
+    <div class="top-bar">         
+      <div class="top-bar-left">     
+        <ul class="dropdown menu" data-dropdown-menu>          
           <li class="menu-text">Jean Forteroche</li>
-        </ul>
-      </div>
-      <div class="top-bar-left">
-        <ul class="dropdown menu" data-dropdown-menu>
-          <li>
+          <li class="has-submenu">
             <a href="#">Posts</a>
             <ul class="menu vertical">
               <li><a href="/posts">Tous les posts</a></li>
               <li><a href="/post/add">Ajouter un post</a></li>
             </ul>
           </li>
-          <li>
+          <li class="has-submenu">
             <a href="#">Commentaires</a>
             <ul class="menu vertical">
               <li><a href="/commentaries">Tous les commentaires</a></li>
             </ul>
           </li>
-          <li>
+          <li class="has-submenu">
             <a href="#">Utilisateurs</a>
             <ul class="menu vertical">
               <li><a href="/users">Tous les posts</a></li>
             </ul>
           </li>
-
           <li><a href="/user/profil">Profil</a></li>
           <li><a href="/session/signout">Se déconnecter</a></li>
         </ul>
       </div>
     </div>
     <!-- End Top Bar -->
+
     <div class="row">
       <div class="large-12 colums">
         <h1>{{title}}</h1>
@@ -52,10 +48,10 @@
     
  {% block content %}
  {% endblock %}
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+   {# <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>#}
     <script src="/assets/js/app.js"></script>
     <script>
-      $(document).foundation();
+      $(document).ready(function() { $(document).foundation(); });
     </script>
         <script type='text/javascript'>//<![CDATA[
 ;document.write("<script defer src='//HOST:3000/socket.io/socket.io.js'><\/script><script defer src='//HOST:3001/client/browser-sync-client.0.9.1.js'><\/script>".replace(/HOST/g, location.hostname));

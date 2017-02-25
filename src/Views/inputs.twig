@@ -1,11 +1,11 @@
 {% macro inputNumber(name,placeholder,errorMessage,helpText,required) %}
       <label>Champ requis
-        <input name="{{name}}" type="text" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}} pattern="number">
+        <input name="{{name}}" type="text" placeholder="{{placeholder}}" aria-describedby="numberHelpText" {{required}} pattern="number">
         <span class="form-error">
           {{errorMessage}}
         </span>
       </label>
-      <p class="help-text" id="exampleHelpText">{{helpText}}</p>
+      <p class="help-text" id="numberHelpText">{{helpText}}</p>
 {% endmacro %}
 {% macro inputText(name,placeholder,errorMessage,helpText,required) %}
       <label>Champ requis
@@ -24,6 +24,33 @@
         </span>
       </label>
       <p class="help-text" id="exampleHelpText"></p>
+{% endmacro %}
+{% macro inputTextMail(name,placeholder,errorMessage,helpText,required) %}
+      <label>Champ requis
+        <input name="{{name}}" type="email" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}} pattern="email">
+        <span class="form-error">
+          {{errorMessage}}
+        </span>
+      </label>
+      <p class="help-text" id="exampleHelpText">{{helpText}}</p>
+{% endmacro %}
+{% macro inputTextPassword(name,placeholder,errorMessage,helpText,required) %}
+      <label>Champ requis
+        <input name="{{name}}" type="password" id="password" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}}>
+        <span class="form-error">
+          {{errorMessage}}
+        </span>
+      </label>
+      <p class="help-text" id="exampleHelpText">{{helpText}}</p>
+{% endmacro %}
+{% macro inputTextPasswordConfirmation(name,placeholder,errorMessage,helpText,required) %}
+      <label>Champ requis
+        <input name="{{name}}" type="password" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}} data-equalto="password">
+        <span class="form-error">
+          {{errorMessage}}
+        </span>
+      </label>
+      <p class="help-text" id="exampleHelpText">{{helpText}}</p>
 {% endmacro %}
 <div class="small-12 columns">
       <label>Nothing Required!
