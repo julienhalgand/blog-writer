@@ -35,6 +35,12 @@ abstract class ObjectController {
     public function getManager(){
         return $this->manager;
     }
+    public function getTwig(){
+        return $this->twig;
+    }
+    public function getObjName(){
+        return $this->objName;
+    }
     public function isDefine(array $inputs){
         foreach($inputs as $input){           
             if(!isset($_POST[$input])){
