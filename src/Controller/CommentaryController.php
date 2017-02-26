@@ -1,21 +1,18 @@
 <?php
 namespace App\Controller;
 
-class CommentaryController {
-    private $loader;
-    private $twig;
+use Respect\Validation\Validator as v;
+
+class CommentaryController extends ObjectController{
 
     public function __construct(){
-        $this->loader = new \Twig_Loader_Filesystem(path."Views");
-        $this->twig =   new \Twig_Environment($this->loader, 
-        ['cache' =>  false //'/../tmp' 
-        ]);
+        parent::__construct("Commentary");
     }
     public function index(){
-        echo $this->twig->render('Commentaries/index.twig');
+        echo $this->twig->render('Commentary/index.twig');
     }
     public function edit($slug, $id){
-        echo $twig->render('Commentaries/edit.twig');
+        echo $twig->render('Commentary/edit.twig');
     }
     public function create($slug, $id){
         

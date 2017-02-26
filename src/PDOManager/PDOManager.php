@@ -14,7 +14,6 @@ abstract class PDOManager{
             die();
         }
         $this->obj = $obj;
-
     }
 
     public function find($numberOfResults, $page){
@@ -22,8 +21,19 @@ abstract class PDOManager{
         $maxLimit = $page*$numberOfResults;
         return $this->PDO->query("SELECT * FROM ".$this->obj." LIMIT ".$minLimit.",".$maxLimit);
     }
-    public function findOne($id){
-        return $this->PDO->query("SELECT * FROM ".$this->obj." WHERE id = ".$id);
+    public function findOneBy($by,$value,array $fieldsReturnedArray){
+        $fieldsReturned = "";
+        $numItems = count($fieldsReturnedArray);
+        $i = 0;
+        foreach($fieldsReturnedArray as $fieldReturned){
+            if(++$i === $numItems){
+                $fieldsReturned = $fieldsReturned.$fieldReturned;
+            }else{
+                $fieldsReturned = $fieldsReturned.$fieldReturned.",";
+            }         
+        }
+        $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");
+        return $req->fetch();
     }
     public function create($arrayObj){
         $attributesString = "";

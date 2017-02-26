@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+session_start();
+$_SESSION['flash'] = "";
 /**/
 ini_set('display_errors','on');
 error_reporting(E_ALL);
@@ -30,6 +32,7 @@ $router->get('/user/signup',['flash'] ,'User.add' ,'Signup');
 $router->get('/user/signin',['flash'] ,'Session.add' ,'Signin');
 $router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
 $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
+$router->post('/session/create',['flash'] ,'Session.create' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
 $router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');

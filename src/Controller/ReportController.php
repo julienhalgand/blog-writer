@@ -1,15 +1,12 @@
 <?php
 namespace App\Controller;
 
-class ReportController {
-    private $loader;
-    private $twig;
+use Respect\Validation\Validator as v;
+
+class ReportController extends ObjectController{
 
     public function __construct(){
-        $this->loader = new \Twig_Loader_Filesystem(path."Views");
-        $this->twig =   new \Twig_Environment($this->loader, 
-        ['cache' =>  false //'/../tmp' 
-        ]);
+        parent::__construct("Report");
     }
     public function index(){
         echo $this->twig->render('Report/index.twig');
