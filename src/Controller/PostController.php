@@ -9,6 +9,10 @@ class PostController extends ObjectController{
         parent::__construct("Post");
     }
 
+    public function home(){
+        $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche');
+    }
+
     public function create(){
         $inputs = ['title','content'];
         $this->isDefine($inputs);

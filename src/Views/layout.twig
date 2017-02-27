@@ -9,52 +9,91 @@
     <script>tinymce.init({ selector:'textarea#tinymce' });</script>
   </head>
   <body>
-    <!-- Start Top Bar -->
-    <div class="top-bar">         
-      <div class="top-bar-left">     
-        <ul class="dropdown menu" data-dropdown-menu>          
-          <li class="menu-text">Jean Forteroche</li>
-          <li class="has-submenu">
-            <a href="#">Posts</a>
-            <ul class="menu vertical">
-              <li><a href="/posts">Tous les posts</a></li>
-              <li><a href="/post/add">Ajouter un post</a></li>
-            </ul>
-          </li>
-          <li class="has-submenu">
-            <a href="#">Commentaires</a>
-            <ul class="menu vertical">
-              <li><a href="/commentaries">Tous les commentaires</a></li>
-            </ul>
-          </li>
-          <li class="has-submenu">
-            <a href="#">Utilisateurs</a>
-            <ul class="menu vertical">
-              <li><a href="/users">Tous les posts</a></li>
-            </ul>
-          </li>
-          <li><a href="/user/profil">Profil</a></li>
-          <li><a href="/session/signout">Se déconnecter</a></li>
-        </ul>
+    {% if error %}
+      <div class="callout alert" data-closable="slide-out-right">
+        <p>{{ error }}</p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="top-bar-right">
+    {% endif %}
+    {% if success %}
+      <div class="callout success" data-closable="slide-out-right">
+        <p>{{ success }}</p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+    {% if user %}
+      <div class="top-bar">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text"><a href="/">Jean Forteroche</a></li> 
+          </ul>               
+        </div>         
+        <div class="top-bar-right">     
+          <ul class="dropdown menu" data-dropdown-menu>          
+            <li><a href="/user/profil">Profil</a></li>
+            <li><a href="/session/signout">Se déconnecter</a></li>
+          </ul>
+        </div>
+      </div>
+    {% else %}
+      <div class="top-bar">
+      <div class="top-bar-left">
         <ul class="dropdown menu" data-dropdown-menu>
-          <li><a href="/user/signin">Se connecter</a></li>
-          <li><a href="/user/signup">Inscription</a></li>
-        </ul>
+          <li class="menu-text"><a href="/">Jean Forteroche</a></li> 
+        </ul>               
       </div>
-    </div>
-    <!-- End Top Bar -->
-
+        <div class="top-bar-right">
+          <ul class="dropdown menu" data-dropdown-menu>        
+            <li><a href="/user/signin">Se connecter</a></li>
+            <li><a href="/user/signup">Inscription</a></li>
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+    {% if user['isAdmin'] %}
+      <!-- Start Top Bar -->
+      <div class="top-bar">         
+        <div class="top-bar-left">     
+          <ul class="dropdown menu" data-dropdown-menu>          
+            <li class="has-submenu">
+              <a href="#">Posts</a>
+              <ul class="menu vertical">
+                <li><a href="/posts">Tous les posts</a></li>
+                <li><a href="/post/add">Ajouter un post</a></li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#">Commentaires</a>
+              <ul class="menu vertical">
+                <li><a href="/commentaries">Tous les commentaires</a></li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#">Utilisateurs</a>
+              <ul class="menu vertical">
+                <li><a href="/users">Tous les utilisateurs</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End Top Bar -->
+    {% endif %}
     <div class="row">
       <div class="large-12 colums">
         <h1>{{title}}</h1>
       </div>
-    </div>
-    
+    </div>    
  {% block content %}
  {% endblock %}
-   {# <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>#}
+   
+    <script src="/assets/js/vendor/jquery.js"></script>
+    <script src="/assets/js/vendor/whatinput.js"></script>
+    <script src="/assets/js/vendor/motionui.js"></script>
     <script src="/assets/js/app.js"></script>
     <script>
       $(document).ready(function() { $(document).foundation(); });

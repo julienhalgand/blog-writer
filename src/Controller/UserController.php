@@ -9,10 +9,21 @@ class UserController extends ObjectController {
         parent::__construct("User");
     }
     public function signin(){
-        echo $this->getTwig()->render($this->getObjName().'/signin.twig', array('title' => 'Connexion'));
+        $this->renderView('/signin.twig','Connexion');
+    }
+    public function profil(){
+        $this->renderView('/profil.twig','Profil');
     }
     public function createSession(){
-        //Tests 
+        //Tests
+        $inputs = ['email','password'];
+        $this->isDefine($inputs);
+        if(!v::email()->length(1,100)->validate($_POST[$inputs[0]])){
+            $_SESSION['error'] = "Le format de l'email est incorrect.";
+        }        
+        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[1]])){
+            $_SESSION['error'] = "Le format du mot de passe est incorrect.";         
+        }
         $fieldSearched = 'email';
         $manager = $this->getManager();
         $user = $manager->findOneBy($fieldSearched,$_POST[$fieldSearched],['id','email','encrypted_password','is_admin']);
@@ -25,19 +36,29 @@ class UserController extends ObjectController {
                     'email' => $user['email'],
                     'isAdmin' => $user['is_admin']
                 );
-                $_SESSION['auth'] = array($user);
-                var_dump($_SESSION['auth']);
+                $_SESSION['auth'] = $user;
+                $_SESSION['success'] = "Bienvenue.";
+                header('Location: /user/profil'); 
             }else{
-
-            }
-            
+                $_SESSION['error'] = "Email ou mot de passe invalide.";
+                header('Location: /user/signin'); 
+            }           
+        }else{
+            $_SESSION['error'] = "Email ou mot de passe invalide.";
+            header('Location: /user/signin'); 
         }
     }
-    
+    public function destroySession(){
+        session_destroy();
+        session_start();
+        $_SESSION['success'] = "À bientôt !";
+        $_SESSION['error'] = "";
+        header('Location: /'); 
+    }
     public function create(){
         $inputs = ['email','password','confirmationPassword'];
         $this->isDefine($inputs);
-        if(!v::stringType()->length(1,100)->validate($_POST[$inputs[0]])){
+        if(!v::email()->length(1,100)->validate($_POST[$inputs[0]])){
             echo("Le format de l'email est incorrect.");
         }        
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[1]])){

@@ -13,34 +13,41 @@ abstract class ObjectController {
     public function __construct($objName){
         $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
-        ['cache' =>  false //'/../tmp' 
+        ['cache' =>  false, //'/../tmp'
+        'debug' => true 
         ]);
+        $this->twig->addExtension(new \Twig_Extension_Debug());
         $managerName = "\App\PDOManager\\".$objName."Manager";
         $this->manager = new $managerName();
         $this->objName = $objName;
         $this->objNameLowerCase = strtolower($objName);
     }
     public function index(){
-        echo $this->twig->render($this->objName.'/index.twig', array('title' => 'Tous les '.$this->objNameLowerCase.'s'));
+        $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s');
     }
     public function view(){
-        echo $this->twig->render($this->objName.'/view.twig', array('title' => ''));
+        $this->renderView('/view.twig','Voir');        
     }
     public function add(){
-        echo $this->twig->render($this->objName.'/add.twig', array('title' => 'Créer un '.$this->objNameLowerCase));
+        $this->renderView('/add.twig','Ajouter un '.$this->objNameLowerCase);        
     }
     public function edit(){
-        echo $this->twig->render($this->objName.'/edit.twig', array('title' => 'Éditer un '.$this->objNameLowerCase));
+        $this->renderView('/edit.twig','Éditer un '.$this->objNameLowerCase);                
     }
+    public function renderView($templateTwig,$title){
+        if(isset($_SESSION['auth'])){
+            echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'user' => $_SESSION['auth']));            
+        }else{
+            echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error']));            
+        }
+        $_SESSION['success'] = "";
+        $_SESSION['error'] = "";
+    }
+
     public function getManager(){
         return $this->manager;
     }
-    public function getTwig(){
-        return $this->twig;
-    }
-    public function getObjName(){
-        return $this->objName;
-    }
+
     public function isDefine(array $inputs){
         foreach($inputs as $input){           
             if(!isset($_POST[$input])){

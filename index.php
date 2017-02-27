@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 session_start();
-$_SESSION['flash'] = "";
+
 /**/
 ini_set('display_errors','on');
 error_reporting(E_ALL);
@@ -21,18 +21,21 @@ $twig = new Twig_Environment($loader, [
 ]);
 
 /****Simple routes*****/
-$router->get('/',['flash'], function(){ global $twig; echo $twig->render('home.twig', array('title' => 'Bienvenue sur le blog de Jean Forteroche')); },'Accueil');
+$router->get('/',['flash'],'Post.home' ,'Accueil');
 /****Simple routes*****/
 
 /****Controllers*****/
 $router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Post.index' ,'Index posts');
 $router->get('/users',['flash','isAuthenticated','isAdmin'] ,'User.index' ,'Index users');
+$router->get('/commentaries',['flash','isAuthenticated','isAdmin'] ,'Commentary.index' ,'Index commentaries');
 $router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Post.add' ,'Add post');
 $router->get('/user/signup',['flash'] ,'User.add' ,'Signup');
 $router->get('/user/signin',['flash'] ,'User.signin' ,'Signin');
 $router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
 $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
+$router->get('/user/profil',['flash'] ,'User.profil' ,'User profil');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
+$router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
 $router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
