@@ -76,11 +76,16 @@ class UserController extends ObjectController {
         $arrayObj['email'] = $_POST['email'];
         $manager = $this->getManager();
         $manager->create($arrayObj);
+        $_SESSION['success'] = "Merci de vous être inscrit sur notre site, vous pouvez maintenant vous connecter à l'aide du formulaire ci-dessous.";
+        header('Location: /user/signin'); 
     }
     public function update($slug, $id){
         
     }
-    public function delete($slug, $id){
-        
+    public function delete($id){        
+        $manager = $this->getManager();
+        $manager->delete($id);
+        $_SESSION['success'] = "Le chapitre a bien été supprimé.";
+        header('Location: /posts'); 
     }
 }

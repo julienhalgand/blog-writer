@@ -1,4 +1,34 @@
    {% extends 'layout.twig' %}
    {% block content %}
-   
+        <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Crée le </th>
+                <th>Mis à jour le</th>
+                <th>Slug</th>
+                <th>Titre</th>
+                <th>Contenus</th>
+                <th>Voir</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+                <tr>
+                    <td>{{ object.id }}</td>
+                    <td>{{ object.created_at }}</td>
+                    <td>{{ object.updated_at }}</td>
+                    <td>{{ object.slug }}</td>
+                    <td>{{ object.title }}</td>
+                    <td>{{ object.content|raw }}</td>
+                    <td><a href="/post/see/{{ object.id }}"><button class="button">Voir</button></a></td>
+                    <td><a href="/post/edit/{{ object.id }}"><button class="success button">Éditer</button></a></td>
+                    {% import 'forms.twig' as forms %}
+                    <td>{{forms.deleteObject("/post/delete/#{object.id}")}}</td> 
+                </tr>              
+            {% endfor %}
+        </tbody>
+        </table>
    {% endblock %}

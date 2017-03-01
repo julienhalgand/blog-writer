@@ -23,22 +23,35 @@ abstract class ObjectController {
         $this->objNameLowerCase = strtolower($objName);
     }
     public function index(){
-        $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s');
+        $objects = $this->manager->find("10","1");
+        $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$objects);       
     }
     public function view(){
-        $this->renderView('/view.twig','Voir');        
+        $this->renderView('/view.twig','Voir');
     }
     public function add(){
-        $this->renderView('/add.twig','Ajouter un '.$this->objNameLowerCase);        
+        $this->renderView('/add.twig','Ajouter un '.$this->objNameLowerCase);
     }
-    public function edit(){
-        $this->renderView('/edit.twig','Éditer un '.$this->objNameLowerCase);                
+    public function edit($id){
+        $object = $this->manager->findOneBy('id',$id,['*']);
+        $this->renderView('/edit.twig','Tous les '.$this->objNameLowerCase.'s',$object);        
     }
-    public function renderView($templateTwig,$title){
-        if(isset($_SESSION['auth'])){
-            echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'user' => $_SESSION['auth']));            
+    public function delete($id){
+        $this->manager->delete($id);
+    }
+    public function renderView($templateTwig,$title,$objects = NULL){
+        if($objects === NULL){
+            if(isset($_SESSION['auth'])){
+                echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'user' => $_SESSION['auth']));            
+            }else{
+                echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error']));            
+            }
         }else{
-            echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error']));            
+            if(isset($_SESSION['auth'])){
+                echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'user' => $_SESSION['auth'], 'objects' => $objects));            
+            }else{
+                echo $this->twig->render($this->objName.$templateTwig, array('title' => $title, 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'objects' => $objects));            
+            }
         }
         $_SESSION['success'] = "";
         $_SESSION['error'] = "";

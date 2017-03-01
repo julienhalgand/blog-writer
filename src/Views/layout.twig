@@ -9,22 +9,6 @@
     <script>tinymce.init({ selector:'textarea#tinymce' });</script>
   </head>
   <body>
-    {% if error %}
-      <div class="callout alert" data-closable="slide-out-right">
-        <p>{{ error }}</p>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endif %}
-    {% if success %}
-      <div class="callout success" data-closable="slide-out-right">
-        <p>{{ success }}</p>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endif %}
     {% if user %}
       <div class="top-bar">
         <div class="top-bar-left">
@@ -55,7 +39,6 @@
       </div>
     {% endif %}
     {% if user['isAdmin'] %}
-      <!-- Start Top Bar -->
       <div class="top-bar">         
         <div class="top-bar-left">     
           <ul class="dropdown menu" data-dropdown-menu>          
@@ -81,7 +64,22 @@
           </ul>
         </div>
       </div>
-      <!-- End Top Bar -->
+    {% endif %}
+    {% if error %}
+      <div class="callout alert" data-closable="slide-out-right">
+        <p>{{ error }}</p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+    {% if success %}
+      <div class="callout success" data-closable="slide-out-right">
+        <p>{{ success }}</p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     {% endif %}
     <div class="row">
       <div class="large-12 colums">

@@ -1,7 +1,5 @@
 <?php
 declare(strict_types=1);
-session_start();
-
 /**/
 ini_set('display_errors','on');
 error_reporting(E_ALL);
@@ -39,8 +37,8 @@ $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user'
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
 $router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
-$router->put('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');
-$router->delete('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.delete' , "Delete d'un post")->with('id', '[0-9]+');
+$router->post('/post/update/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');
+$router->post('/post/delete/:id',['flash','isAuthenticated','isAdmin'] , 'Post.delete' , "Delete d'un post")->with('id', '[0-9]+');
 /****Controllers*****/
 
 /****Files****/

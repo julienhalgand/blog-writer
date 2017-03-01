@@ -7,9 +7,9 @@
       </label>
       <p class="help-text" id="numberHelpText">{{helpText}}</p>
 {% endmacro %}
-{% macro inputText(name,placeholder,errorMessage,helpText,required) %}
+{% macro inputText(name,placeholder,errorMessage,helpText,required,value) %}
       <label>Champ requis
-        <input name="{{name}}" type="text" placeholder="{{placeholder}}" aria-describedby="exampleHelpText" {{required}}>
+        <input name="{{name}}" type="text" placeholder="{{placeholder}}" value="{{value}}" aria-describedby="exampleHelpText" {{required}}>
         <span class="form-error">
           {{errorMessage}}
         </span>

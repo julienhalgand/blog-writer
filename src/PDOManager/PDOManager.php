@@ -18,8 +18,9 @@ abstract class PDOManager{
 
     public function find($numberOfResults, $page){
         $minLimit = ($page-1)*$numberOfResults;
-        $maxLimit = $page*$numberOfResults;
-        return $this->PDO->query("SELECT * FROM ".$this->obj." LIMIT ".$minLimit.",".$maxLimit);
+        $maxLimit = $page*$numberOfResults; 
+        $req = $this->PDO->query("SELECT * FROM ".$this->obj." LIMIT ".$minLimit.",".$maxLimit);
+        return $req->fetchAll();
     }
     public function findOneBy($by,$value,array $fieldsReturnedArray){
         $fieldsReturned = "";
@@ -49,15 +50,25 @@ abstract class PDOManager{
                 $valuesString = $valuesString.":".$key.",";
             }
         }
-        var_dump("INSERT INTO ".$this->obj." (".$attributesString.") VALUE (".$valuesString.")");
         $req = $this->PDO->prepare("INSERT INTO ".$this->obj." (".$attributesString.") VALUES (".$valuesString.")");
-
         $req->execute($arrayObj);
     }
-    public function update($id){
-
+    public function update($id,$arrayObj){
+        $valuesString = "";
+        $numItems = count($arrayObj);
+        $i = 0;
+        foreach($arrayObj as $key => $value){
+            if(++$i === $numItems){
+                $valuesString = $valuesString.$key." = '".$value."'";
+            }else{
+                $valuesString = $valuesString.$key." = '".$value."', ";
+            }
+        }
+        $req = $this->PDO->prepare("UPDATE ".$this->obj." SET ".$valuesString." WHERE id =".$id);
+        $req->execute();
     }
     public function delete($id){
-
+        $req = $this->PDO->prepare("DELETE FROM ".$this->obj." WHERE id =".$id);
+        $req->execute();
     }
 }

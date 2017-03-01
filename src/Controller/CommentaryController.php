@@ -12,10 +12,8 @@ class CommentaryController extends ObjectController{
     public function create(){
         
     }
-    public function update(){
+    public function update($id){
         
     }
-    public function delete(){
-        
-    }
+
 }

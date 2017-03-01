@@ -1,102 +1,135 @@
 {% macro addPost(action) %}
-<form action={{action}}  method="POST" data-abide novalidate> 
-  <div data-abide-error class="alert callout" style="display: none;">
-    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-  </div>
-    {% import 'inputs.twig' as inputs %}
-    <div class="row">
-      <div class="large-12 columns">
-        {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required')}}           
-      </div>
-      <div class="large-12 columns">
-        {{inputs.inputTextTinyMCE("content",'Contenu du post','Vous devez saisir un texte valide.','required')}}           
-      </div>
+  <form action={{action}}  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
     </div>
-    <div class="row">
-      <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Créer un article</button>
-      </fieldset>
-      <fieldset class="large-6 columns">
-        <button class="button" type="reset" value="Reset">Réinitialiser</button>
-      </fieldset>
+      {% import 'inputs.twig' as inputs %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required')}}           
+        </div>
+        <div class="large-12 columns">
+          {{inputs.inputTextTinyMCE("content",'Contenu du post','Vous devez saisir un texte valide.','required')}}           
+        </div>
+      </div>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Créer un article</button>
+        </fieldset>
+        <fieldset class="large-6 columns">
+          <button class="button" type="reset" value="Reset">Réinitialiser</button>
+        </fieldset>
+      </div>
+  </form>
+{% endmacro %}
+{% macro editPost(action,object) %}
+  <form action="{{action}}"  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
     </div>
-</form>
+      {% import 'inputs.twig' as inputs %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required',object.title)}}           
+        </div>
+        <div class="large-12 columns">
+          {{inputs.inputTextTinyMCE("content",object.content,'Vous devez saisir un texte valide.','required')}}           
+        </div>
+      </div>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Mettre à jour l'article</button>
+        </fieldset>
+        <fieldset class="large-6 columns">
+          <button class="button" type="reset" value="Reset">Réinitialiser</button>
+        </fieldset>
+      </div>
+  </form>
 {% endmacro %}
 {% macro addUser(action) %}
-<form action={{action}}  method="POST" data-abide novalidate> 
-  <div data-abide-error class="alert callout" style="display: none;">
-    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-  </div>
-    {% import 'inputs.twig' as inputs %}
-    <div class="row">
-      <div class="large-12 columns">
-        {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
-        {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
-        {{inputs.inputTextPasswordConfirmation("confirmationPassword",'Ressaisissez votre mot de passe.','Ressaisissez votre mot de passe','Les 2 deux mots de passe doivent correspondrent.','required')}}           
+  <form action={{action}}  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+    </div>
+      {% import 'inputs.twig' as inputs %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
+          {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+          {{inputs.inputTextPasswordConfirmation("confirmationPassword",'Ressaisissez votre mot de passe.','Ressaisissez votre mot de passe','Les 2 deux mots de passe doivent correspondrent.','required')}}           
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Créer un compte</button>
-      </fieldset>
-      <fieldset class="large-6 columns">
-        <button class="button" type="reset" value="Reset">Réinitialiser</button>
-      </fieldset>
-    </div>
-</form>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Créer un compte</button>
+        </fieldset>
+        <fieldset class="large-6 columns">
+          <button class="button" type="reset" value="Reset">Réinitialiser</button>
+        </fieldset>
+      </div>
+  </form>
 {% endmacro %}
 {% macro addSession(action) %}
-<form action={{action}}  method="POST" data-abide novalidate> 
-  <div data-abide-error class="alert callout" style="display: none;">
-    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-  </div>
-    {% import 'inputs.twig' as inputs %}
-    <div class="row">
-      <div class="large-12 columns">
-        {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
-        {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+  <form action={{action}}  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+    </div>
+      {% import 'inputs.twig' as inputs %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
+          {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Se connecter</button>
-      </fieldset>
-      <fieldset class="large-6 columns">
-        <button class="button" type="reset" value="Reset">Réinitialiser</button>
-      </fieldset>
-    </div>
-</form>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Se connecter</button>
+        </fieldset>
+        <fieldset class="large-6 columns">
+          <button class="button" type="reset" value="Reset">Réinitialiser</button>
+        </fieldset>
+      </div>
+  </form>
 {% endmacro %}
 {% macro addCommentary(action) %}
-<form action={{action}}  method="POST" data-abide novalidate> 
-  <div data-abide-error class="alert callout" style="display: none;">
-    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-  </div>
-    {% import 'inputs.twig' as inputs %}
-    <div class="row">
-      <div class="large-12 columns">
-        {{inputs.inputTextTinyMCE("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}                
+  <form action={{action}}  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+    </div>
+      {% import 'inputs.twig' as inputs %}
+      <div class="row">
+        <div class="large-12 columns">
+          {{inputs.inputTextTinyMCE("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}                
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Se connecter</button>
-      </fieldset>
-      <fieldset class="large-6 columns">
-        <button class="button" type="reset" value="Reset">Réinitialiser</button>
-      </fieldset>
-    </div>
-</form>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Se connecter</button>
+        </fieldset>
+        <fieldset class="large-6 columns">
+          <button class="button" type="reset" value="Reset">Réinitialiser</button>
+        </fieldset>
+      </div>
+  </form>
 {% endmacro %}
 {% macro addReport(action) %}
-<form action={{action}}  method="POST" data-abide novalidate> 
-  <div data-abide-error class="alert callout" style="display: none;">
-    <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-  </div>
-    <div class="row">
-      <fieldset class="large-6 columns">
-        <button class="button" type="submit" value="Submit">Se connecter</button>
-      </fieldset>
+  <form action={{action}}  method="POST" data-abide novalidate> 
+    <div data-abide-error class="alert callout" style="display: none;">
+      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
     </div>
-</form>
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="button" type="submit" value="Submit">Se connecter</button>
+        </fieldset>
+      </div>
+  </form>
+{% endmacro %}
+{% macro deleteObject(action) %}
+  <form action={{action}}  method="POST">
+      <div class="row">
+        <fieldset class="large-6 columns">
+          <button class="alert button" type="submit" value="Submit">Supprimer</button>
+        </fieldset>
+      </div>
+  </form>
 {% endmacro %}

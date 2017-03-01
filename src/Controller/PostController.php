@@ -30,12 +30,33 @@ class PostController extends ObjectController{
         $arrayObj['slug'] = $this->slug($arrayObj['title']);
         $manager = $this->getManager();
         $manager->create($arrayObj);
+        $_SESSION['success'] = "Le chapitre a été ajouté avec succès.";
+        header('Location: /posts'); 
     }
-    public function update($slug, $id){
+    public function update($id){
+        $inputs = ['title','content'];
+        $this->isDefine($inputs);
+        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
+            echo("Le format du titre est incorrect.");
+        }        
+        if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
+            echo("Le format du contenus de l'article est incorrect.");            
+        }       
+        $arrayObj = [];
+        foreach($inputs as $input){
+            $arrayObj[$input] = $_POST[$input];
+        }
         
+        $manager = $this->getManager();
+        $manager->update($id,$arrayObj);
+        $_SESSION['success'] = "Le chapitre a bien été mis à jour.";
+        header('Location: /posts'); 
     }
-    public function delete($id){
-        
+    public function delete($id){        
+        $manager = $this->getManager();
+        $manager->delete($id);
+        $_SESSION['success'] = "Le chapitre a bien été supprimé.";
+        header('Location: /posts'); 
     }
     private function remove_accent($str){
         $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð',
