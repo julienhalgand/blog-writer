@@ -35,6 +35,7 @@ $router->get('/user/profil',['flash'] ,'User.profil' ,'User profil');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
 $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
+$router->get('/post/see/:slug',['flash'] ,'Post.see' ,'See post')->with('slug', '[a-z0-9](-?[a-z0-9]+)*');
 $router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
 $router->post('/post/update/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');

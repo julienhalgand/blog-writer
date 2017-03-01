@@ -52,6 +52,11 @@ class PostController extends ObjectController{
         $_SESSION['success'] = "Le chapitre a bien été mis à jour.";
         header('Location: /posts'); 
     }
+    public function see($slug){
+        $manager = $this->getManager();
+        $object = $manager->findOneBy('slug',$slug,['*']);
+        $this->renderView('/see.twig',$object['title'],$object); 
+    }
     public function delete($id){        
         $manager = $this->getManager();
         $manager->delete($id);

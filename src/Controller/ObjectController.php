@@ -26,8 +26,9 @@ abstract class ObjectController {
         $objects = $this->manager->find("10","1");
         $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$objects);       
     }
-    public function view(){
-        $this->renderView('/view.twig','Voir');
+    public function see($id){
+        $object = $this->manager->findOneBy('id',$id,['*']);
+        $this->renderView('/see.twig','Voir un '.$this->objNameLowerCase,$object); 
     }
     public function add(){
         $this->renderView('/add.twig','Ajouter un '.$this->objNameLowerCase);
