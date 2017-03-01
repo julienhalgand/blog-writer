@@ -10,7 +10,9 @@ class PostController extends ObjectController{
     }
 
     public function home(){
-        $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche');
+        $manager = $this->getManager();
+        $posts = $manager->find("10","1");
+        $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche',$posts);
     }
 
     public function create(){

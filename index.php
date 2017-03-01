@@ -31,7 +31,7 @@ $router->get('/user/signup',['flash'] ,'User.add' ,'Signup');
 $router->get('/user/signin',['flash'] ,'User.signin' ,'Signin');
 $router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
 $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
-$router->get('/user/profil',['flash'] ,'User.profil' ,'User profil');
+$router->get('/user/profil/:id',['flash'] ,'User.profil' ,'User profil')->with('id', '[0-9]+');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
 $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');

@@ -19,7 +19,7 @@
                     <td>{{ object.created_at }}</td>
                     <td>{{ object.updated_at }}</td>
                     <td>{{ object.email }}</td>
-                    <td><a href="/user/see/{{ object.id }}"><button class="button">Voir</button></a></td>
+                    <td><a href="/user/profil/{{ object.id }}"><button class="button">Voir</button></a></td>
                     <td><a href="/user/edit/{{ object.id }}"><button class="success button">Éditer</button></a></td>
                     {% import 'forms.twig' as forms %}
                     <td>{{forms.deleteObject("/user/delete/#{object.id}")}}</td> 
