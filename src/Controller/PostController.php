@@ -86,24 +86,23 @@ class PostController extends ObjectController{
                         break;
                 }
             }
-            //var_dump($commentariesLevel3Array);
             //On répartis les commentaires
             $commentariesArray = [];
             foreach($commentariesLevel0Array as $commentaryLevel0){
                 $commentaryLevel0['responsesLevel1'] = [];
-                $commentaryLevel0['responsesLevel2'] = [];
-                $commentaryLevel0['responsesLevel3'] = [];
+                $commentaryLevel0['responsesLevel1']['responsesLevel2'] = [];
+                $commentaryLevel0['responsesLevel1']['responsesLevel2']['responsesLevel3'] = [];
                 foreach($commentariesLevel1Array as $commentaryLevel1){
                     if($commentaryLevel1['commentary_response_id'] == $commentaryLevel0['id']){
                         $commentaryLevel0['responsesLevel1'][] = $commentaryLevel1;
                         //var_dump("level1");
                         foreach($commentariesLevel2Array as $commentaryLevel2){
                             if($commentaryLevel2['commentary_response_id'] == $commentaryLevel1['id']){
-                                $commentaryLevel0['responsesLevel2'][] = $commentaryLevel2;
+                                $commentaryLevel0['responsesLevel1']['responsesLevel2'][] = $commentaryLevel2;
                                 //var_dump("level2");
                                 foreach($commentariesLevel3Array as $commentaryLevel3){
                                     if($commentaryLevel3['commentary_response_id'] == $commentaryLevel2['id']){
-                                        $commentaryLevel0['responsesLevel3'][] = $commentaryLevel3;                       
+                                        $commentaryLevel0['responsesLevel1']['responsesLevel2']['responsesLevel3'][] = $commentaryLevel3;                       
                                         //var_dump("level3");
                                     }
                                 }
@@ -113,9 +112,8 @@ class PostController extends ObjectController{
                 }
                 $commentariesArray[] = $commentaryLevel0;               
             }
-            var_dump($commentariesArray);
             $objects['post'] = $post;
-            $objects['commentaries'] = $commentaries;
+            $objects['commentaries'] = $commentariesArray;
             $this->renderView('/see.twig',$post['title'],$objects);
         }else{
             $this->notFound();

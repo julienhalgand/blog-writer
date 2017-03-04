@@ -7,14 +7,38 @@
             <ul class="menu simple align-right">
                 {% import 'forms.twig' as forms %}
                 {{forms.addCommentary('/commentary/create',"#{objects.post.id}")}}
+                {{dump(objects.commentaries)}}
                 {% for commentary in objects.commentaries %}
-                <div class="callout">
-                    {{commentary.content}}
-                    <p><a data-open="commentaryResponse{{commentary.id}}">Répondre à ce commentaire</a></p>
-                    {{forms.addReport("/commentary/report")}}
+                    <div class="callout">
+                        {{commentary.content}}
+                        <p><a data-open="commentaryResponse{{commentary.id}}">Répondre à ce commentaire</a></p>
+                        {{forms.addReport("/commentary/report")}}                   
+                        {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary.id}")}}
                     
-                    {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary.id}")}}
-                </div>
+                    {% for commentary1 in commentary.responsesLevel1 %}
+                        <div class="callout">
+                            {{commentary1.content}}
+                            <p><a data-open="commentaryResponse{{commentary1.id}}">Répondre à ce commentaire</a></p>
+                            {{forms.addReport("/commentary/report")}}                   
+                            {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary1.id}")}}
+                            {% for commentary2 in commentary.responsesLevel1.responsesLevel2 %}
+                                <div class="callout">
+                                    {{commentary2.content}}
+                                    <p><a data-open="commentaryResponse{{commentary2.id}}">Répondre à ce commentaire</a></p>
+                                    {{forms.addReport("/commentary/report")}}                   
+                                    {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary2.id}")}}
+                                {% for commentary3 in commentary.responsesLevel1.responsesLevel2.responsesLevel3 %}
+                                    <div class="callout">
+                                        {{commentary3.content}}
+                                        {{forms.addReport("/commentary/report")}}                   
+                                        {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary3.id}")}}
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    </div>
                 {% endfor %}
             </ul>
         </div>
