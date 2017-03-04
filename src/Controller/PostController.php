@@ -55,9 +55,71 @@ class PostController extends ObjectController{
         header('Location: /posts'); 
     }
     public function see($slug){
-        $manager = $this->getManager();
-        $object = $manager->findOneBy('slug',$slug,['*']);
-        $this->renderView('/see.twig',$object['title'],$object); 
+        $postManager = $this->getManager();
+        $post = $postManager->findOneBy('slug',$slug,['*']);
+        if($post){
+            $commentariesManager = new \App\PDOManager\CommentaryManager();
+            $commentaries = $commentariesManager->findBy('post_id',$post['id'],['*']);
+            /**On trie les commentaires dans l'ordre
+            *   -> commentaire niveau 0 .responses
+                    -> commentaire niveau 1 .responses
+                        -> commentaire niveau 2 .responses
+                            -> commentaire niveau 3
+            */
+            $commentariesLevel0Array = [];
+            $commentariesLevel1Array = [];
+            $commentariesLevel2Array = [];
+            $commentariesLevel3Array = [];
+            foreach($commentaries as $commentary){
+                switch($commentary['commentary_level']){
+                    case 0 :
+                        $commentariesLevel0Array[] = $commentary;
+                        break;
+                    case 1 :
+                        $commentariesLevel1Array[] = $commentary;
+                        break;
+                    case 2 :
+                        $commentariesLevel2Array[] = $commentary;
+                        break;
+                    case 3 :
+                        $commentariesLevel3Array[] = $commentary;
+                        break;
+                }
+            }
+            //var_dump($commentariesLevel3Array);
+            //On répartis les commentaires
+            $commentariesArray = [];
+            foreach($commentariesLevel0Array as $commentaryLevel0){
+                $commentaryLevel0['responsesLevel1'] = [];
+                $commentaryLevel0['responsesLevel2'] = [];
+                $commentaryLevel0['responsesLevel3'] = [];
+                foreach($commentariesLevel1Array as $commentaryLevel1){
+                    if($commentaryLevel1['commentary_response_id'] == $commentaryLevel0['id']){
+                        $commentaryLevel0['responsesLevel1'][] = $commentaryLevel1;
+                        //var_dump("level1");
+                        foreach($commentariesLevel2Array as $commentaryLevel2){
+                            if($commentaryLevel2['commentary_response_id'] == $commentaryLevel1['id']){
+                                $commentaryLevel0['responsesLevel2'][] = $commentaryLevel2;
+                                //var_dump("level2");
+                                foreach($commentariesLevel3Array as $commentaryLevel3){
+                                    if($commentaryLevel3['commentary_response_id'] == $commentaryLevel2['id']){
+                                        $commentaryLevel0['responsesLevel3'][] = $commentaryLevel3;                       
+                                        //var_dump("level3");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $commentariesArray[] = $commentaryLevel0;               
+            }
+            var_dump($commentariesArray);
+            $objects['post'] = $post;
+            $objects['commentaries'] = $commentaries;
+            $this->renderView('/see.twig',$post['title'],$objects);
+        }else{
+            $this->notFound();
+        }
     }
     public function delete($id){        
         $manager = $this->getManager();

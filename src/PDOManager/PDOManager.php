@@ -23,18 +23,10 @@ abstract class PDOManager{
         return $req->fetchAll();
     }
     public function findOneBy($by,$value,array $fieldsReturnedArray){
-        $fieldsReturned = "";
-        $numItems = count($fieldsReturnedArray);
-        $i = 0;
-        foreach($fieldsReturnedArray as $fieldReturned){
-            if(++$i === $numItems){
-                $fieldsReturned = $fieldsReturned.$fieldReturned;
-            }else{
-                $fieldsReturned = $fieldsReturned.$fieldReturned.",";
-            }         
-        }
-        $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");
-        return $req->fetch();
+        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetch();
+    }
+    public function findBy($by,$value,array $fieldsReturnedArray){
+        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll();
     }
     public function create($arrayObj){
         $attributesString = "";
@@ -70,5 +62,19 @@ abstract class PDOManager{
     public function delete($id){
         $req = $this->PDO->prepare("DELETE FROM ".$this->obj." WHERE id =".$id);
         $req->execute();
+    }
+
+    private function findByRequest($by,$value,array $fieldsReturnedArray){
+        $fieldsReturned = "";
+        $numItems = count($fieldsReturnedArray);
+        $i = 0;
+        foreach($fieldsReturnedArray as $fieldReturned){
+            if(++$i === $numItems){
+                $fieldsReturned = $fieldsReturned.$fieldReturned;
+            }else{
+                $fieldsReturned = $fieldsReturned.$fieldReturned.",";
+            }         
+        }
+        return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");
     }
 }

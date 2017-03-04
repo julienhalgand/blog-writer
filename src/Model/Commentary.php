@@ -4,8 +4,8 @@ namespace App\Model;
  
 class Commentary {
     private $id;
-    private $post; //many to one post
-    private $commentary; //one to one commentary
+    private $post;
+    private $commentary;
     private $reports;
     private $level;
     private $content;

@@ -13,16 +13,8 @@ if (!array_key_exists('url',$_GET)){
 }
 $router = new App\Router\Router($_GET['url']);
 
-$loader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT']."/src/Views");
-$twig = new Twig_Environment($loader, [
-    'cache' =>  false //'/../tmp' 
-]);
-
-/****Simple routes*****/
-$router->get('/',['flash'],'Post.home' ,'Accueil');
-/****Simple routes*****/
-
 /****Controllers*****/
+$router->get('/',['flash'],'Post.home' ,'Accueil');
 $router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Post.index' ,'Index posts');
 $router->get('/users',['flash','isAuthenticated','isAdmin'] ,'User.index' ,'Index users');
 $router->get('/commentaries',['flash','isAuthenticated','isAdmin'] ,'Commentary.index' ,'Index commentaries');
@@ -31,12 +23,13 @@ $router->get('/user/signup',['flash'] ,'User.add' ,'Signup');
 $router->get('/user/signin',['flash'] ,'User.signin' ,'Signin');
 $router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
 $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
+$router->post('/commentary/create',['flash'] ,'Commentary.create' ,'Create commentary');
+$router->post('/report/create',['flash'] ,'Report.create' ,'Create report');
 $router->get('/user/profil/:id',['flash'] ,'User.profil' ,'User profil')->with('id', '[0-9]+');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
 $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
 $router->get('/post/see/:slug',['flash'] ,'Post.see' ,'See post')->with('slug', '[a-z0-9](-?[a-z0-9]+)*');
-$router->get('/post/:id',['flash'] , 'Post.view', 'Voir post ')->with('id', '[0-9]+');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
 $router->post('/post/update/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');
 $router->post('/post/delete/:id',['flash','isAuthenticated','isAdmin'] , 'Post.delete' , "Delete d'un post")->with('id', '[0-9]+');

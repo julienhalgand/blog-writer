@@ -6,7 +6,7 @@ class User {
     private $id;
     private $email;
     private $encryptedPassword;
-    private $posts; // many to one post
+    private $posts;
 
     public function __construct($id,$email,$title,$tags,$content){
         $this->id = $id;

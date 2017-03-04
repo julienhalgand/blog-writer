@@ -57,7 +57,11 @@ abstract class ObjectController {
         $_SESSION['success'] = "";
         $_SESSION['error'] = "";
     }
-
+    public function notFound(){
+        http_response_code(404);
+        echo $this->twig->render('404.twig', array('title' => "Cette page n'existe pas ou plus !", 'success' => $_SESSION['success'], 'error' => $_SESSION['error'], 'user' => $_SESSION['auth']));
+        die;
+    }
     public function getManager(){
         return $this->manager;
     }

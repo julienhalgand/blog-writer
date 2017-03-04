@@ -91,35 +91,60 @@
       </div>
   </form>
 {% endmacro %}
-{% macro addCommentary(action) %}
-  <form action={{action}}  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
-      {% import 'inputs.twig' as inputs %}
-      <div class="row">
-        <div class="large-12 columns">
-          {{inputs.inputTextTinyMCE("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}                
+{% macro addCommentary(action,idPost) %}
+  <div id="exampleModal1" data-reveal>
+    <form action={{action}}  method="POST" data-abide novalidate> 
+      <div data-abide-error class="alert callout" style="display: none;">
+        <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+      </div>
+        {% import 'inputs.twig' as inputs %}
+        <div class="row">
+          <div class="large-12 columns">
+            {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
+            {{inputs.inputHidden("post_id","#{idPost}")}}
+          </div>
         </div>
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <button class="button" type="submit" value="Submit">Ajouter un commentaire</button>
+          </fieldset>
+          <fieldset class="large-6 columns">
+            <button class="button" type="reset" value="Reset">Réinitialiser</button>
+          </fieldset>
+        </div>
+    </form>
+  </div>
+{% endmacro %}
+{% macro addResponseToCommentary(action,idPost,idCommentary) %}
+  <div id="commentaryResponse{{idCommentary}}" data-reveal>
+    <form action={{action}}  method="POST" data-abide novalidate> 
+      <div data-abide-error class="alert callout" style="display: none;">
+        <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
       </div>
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Se connecter</button>
-        </fieldset>
-        <fieldset class="large-6 columns">
-          <button class="button" type="reset" value="Reset">Réinitialiser</button>
-        </fieldset>
-      </div>
-  </form>
+        {% import 'inputs.twig' as inputs %}
+        <div class="row">
+          <div class="large-12 columns">
+            {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
+            {{inputs.inputHidden("post_id","#{idPost}")}}
+            {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
+          </div>
+        </div>
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <button class="button" type="submit" value="Submit">Ajouter un commentaire</button>
+          </fieldset>
+          <fieldset class="large-6 columns">
+            <button class="button" type="reset" value="Reset">Réinitialiser</button>
+          </fieldset>
+        </div>
+    </form>
+  </div>
 {% endmacro %}
 {% macro addReport(action) %}
   <form action={{action}}  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
       <div class="row">
         <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Se connecter</button>
+          <button class="button" type="submit" value="Submit">Signaler ce commentaire</button>
         </fieldset>
       </div>
   </form>

@@ -1,5 +1,4 @@
 <?php
-use Respect\Validation\Validator as v;
 
 namespace App\Model;
  
@@ -8,7 +7,7 @@ class Post {
     private $title;
     private $slug;
     private $content;
-    private $commentaries; //one to many commentary
+    private $commentaries;
 
     public function __construct(string $title, string $content){
         $this->slug = $slug;

@@ -20,7 +20,7 @@ class UserController extends ObjectController {
         $this->isDefine($inputs);
         if(!v::email()->length(1,100)->validate($_POST[$inputs[0]])){
             $_SESSION['error'] = "Le format de l'email est incorrect.";
-        }        
+        }
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[1]])){
             $_SESSION['error'] = "Le format du mot de passe est incorrect.";         
         }
@@ -38,11 +38,11 @@ class UserController extends ObjectController {
                 );
                 $_SESSION['auth'] = $user;
                 $_SESSION['success'] = "Bienvenue.";
-                header('Location: /user/profil'); 
+                header('Location: /user/profil/'.$user['id']); 
             }else{
                 $_SESSION['error'] = "Email ou mot de passe invalide.";
-                header('Location: /user/signin'); 
-            }           
+                header('Location: /user/signin');
+            }
         }else{
             $_SESSION['error'] = "Email ou mot de passe invalide.";
             header('Location: /user/signin'); 
