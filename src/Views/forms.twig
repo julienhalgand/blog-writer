@@ -140,8 +140,11 @@
     </form>
   </div>
 {% endmacro %}
-{% macro addReport(action) %}
-  <form action={{action}}  method="POST" data-abide novalidate> 
+{% macro addReport(action,idCommentary,slug) %}
+  <form action={{action}}  method="POST" data-abide novalidate>
+          {% import 'inputs.twig' as inputs %}
+          {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
+          {{inputs.inputHidden("slug","#{slug}")}}
       <div class="row">
         <fieldset class="large-6 columns">
           <button class="button" type="submit" value="Submit">Signaler ce commentaire</button>
@@ -157,4 +160,27 @@
         </fieldset>
       </div>
   </form>
+{% endmacro %}
+{% macro pages(pageActual,pagesTotal,url) %}
+    <div class="row column">
+      <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+        {% if pageActual == 1 %} 
+          <li class="disabled">Précédente</li>
+        {% else %}
+        <li><a href="{{ url }}{{ pageActual - 1 }}" aria-label="Next page">Précédente</a></li>
+        {% endif %}
+        {% for i in  1..pagesTotal %}
+          {% if i == pageActual %}       
+            <li class="current"><span class="show-for-sr">You're on page</span> {{i}}</li>
+          {% else %}
+            <li><a href="{{ url }}{{i}}" aria-label="Page {{i}}">{{i}}</a></li>
+          {% endif %} 
+        {% endfor %}
+        {% if pageActual == pagesTotal %} 
+          <li class="disabled">Suivante</li>
+        {% else %}
+        <li><a href="{{ url }}{{ pageActual + 1 }}" aria-label="Next page">Suivante</a></li>
+        {% endif %}
+      </ul>
+    </div>
 {% endmacro %}

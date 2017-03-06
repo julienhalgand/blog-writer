@@ -22,9 +22,23 @@ abstract class ObjectController {
         $this->objName = $objName;
         $this->objNameLowerCase = strtolower($objName);
     }
-    public function index(){
-        $objects = $this->manager->find("10","1");
-        $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$objects);       
+    public function index($page = NULL){
+        $objectNumber = 10;
+        $numberOfObjects = $this->manager->count();
+        $pagesTotal = ceil($numberOfObjects/$objectNumber);
+        if(isset($page)){
+            $objects = $this->manager->find($objectNumber,$page);
+            $arrayObj['pageActual'] = $page;            
+        }else{
+            $objects = $this->manager->find($objectNumber,1);
+            $arrayObj['pageActual'] = 1;
+        }
+        if($objects){
+            $arrayObj['objects'] = $objects;
+            $arrayObj['pagesTotal'] = $pagesTotal;
+            $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$arrayObj);
+        }
+              
     }
     public function see($id){
         $object = $this->manager->findOneBy('id',$id,['*']);
@@ -37,9 +51,12 @@ abstract class ObjectController {
         $object = $this->manager->findOneBy('id',$id,['*']);
         $this->renderView('/edit.twig','Tous les '.$this->objNameLowerCase.'s',$object);        
     }
-    public function delete($id){
-        $this->manager->delete($id);
-    }
+    /**
+    *public function delete($id,$url,$message){
+    *    $this->manager->delete($id);
+    *    $this->error($message,$url);        
+    *}
+    */
     public function renderView($templateTwig,$title,$objects = NULL){
         if($objects === NULL){
             if(isset($_SESSION['auth'])){
@@ -66,12 +83,21 @@ abstract class ObjectController {
         return $this->manager;
     }
 
-    public function isDefine(array $inputs){
+    public function isDefine(array $inputs, string $url){
         foreach($inputs as $input){           
             if(!isset($_POST[$input])){
-               echo ($input." n'est pas définis.");
-               break;
+                $this->error($input." n'est pas définis.",$url);
             }
         }
+    }
+    public function error(string $message, string $url){
+        $_SESSION['error'] = $message;
+        header("Location: ".$url);
+        die; 
+    }
+    public function success(string $message, string $url){
+        $_SESSION['success'] = $message;
+        header("Location: ".$url);
+        die; 
     }
 }

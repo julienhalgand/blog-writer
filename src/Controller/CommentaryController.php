@@ -11,22 +11,19 @@ class CommentaryController extends ObjectController{
 
     public function create(){
         $inputs = ['content','post_id'];
-        $this->isDefine($inputs);
-        $arrayObj = [];
-        foreach($inputs as $input){
-            $arrayObj[$input] = $_POST[$input];
-        }
         $postManager = new \App\PDOManager\PostManager();
-        $slug = $postManager->findOneBy('id',$arrayObj['post_id'],['slug'])['slug'];
+        $slug = $postManager->findOneBy('id',$_POST['post_id'],['slug'])['slug'];
         if(isset($slug)){
+            $this->isDefine($inputs,"/post/see/".$slug);
+            $arrayObj = [];
+            foreach($inputs as $input){
+                $arrayObj[$input] = $_POST[$input];
+            }
             if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-                $_SESSION['error'] = "Le format du contenus est incorrect.";
-                header('Location: /post/see/'.$slug); 
+                $this->error("Le format du contenus est incorrect.",'Location: /post/see/'.$slug);
             }
             if(!v::numeric()->validate($_POST[$inputs[1]])){
-                $_SESSION['error'] = "Le format de l'id est incorrect.";
-                header('Location: /post/see/'.$slug);
-                die;
+                $this->error("Le format de l'id est incorrect.",'Location: /post/see/'.$slug);
             }
             /**
             *Si l'utilisateur est connecté
@@ -47,23 +44,19 @@ class CommentaryController extends ObjectController{
                     if($commentaryLevel < 3){
                         $arrayObj['commentary_level'] = $commentaryLevel+1;
                     }else{
-                        $_SESSION['error'] = "Seulement 3 niveaux de commentaires sont autorisés.";
-                        header('Location: /post/see/'.$slug);
-                        die;
+                        $this->error("Seulement 3 niveaux de commentaires sont autorisés.",'Location: /post/see/'.$slug);
                     }                    
                 }
                 //Id de l'auteur du commentaire
                 $arrayObj['user_id'] = $_SESSION['auth']['id'];
                 //Création du commentaire
                 $commentaryManager->create($arrayObj);
-                $_SESSION['success'] = "Votre commentaire a été ajouté avec succès.";
-                header('Location: /post/see/'.$slug);
+                $this->success("Votre commentaire a été ajouté avec succès.",'Location: /post/see/'.$slug);
             /**
             *Si l'utilisateur n'est pas connecté
             */
             }else{
-                $_SESSION['error'] = "Vous devez être connecté pour vous connecter.";
-                header('Location: /post/see/'.$slug); 
+                $this->error("Vous devez être connecté pour crée un commentaire.",'Location: /post/see/'.$slug);
             }
         }else{
             $this->notFound();
@@ -73,12 +66,12 @@ class CommentaryController extends ObjectController{
     }
     public function update($id){
         $inputs = ['title','content'];
-        $this->isDefine($inputs);
+        $this->isDefine($inputs,"/commentaries");
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-            echo("Le format du titre est incorrect.");
+            $this->error("Le format du titre est incorrect.",'Location: /posts');
         }        
         if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            echo("Le format du contenus de l'article est incorrect.");            
+            $this->error("Le format du contenus de l'article est incorrect.",'Location: /posts');       
         }       
         $arrayObj = [];
         foreach($inputs as $input){
@@ -87,8 +80,7 @@ class CommentaryController extends ObjectController{
         
         $manager = $this->getManager();
         $manager->update($id,$arrayObj);
-        $_SESSION['success'] = "Le chapitre a bien été mis à jour.";
-        header('Location: /posts'); 
+        $this->success("Le chapitre a bien été mis à jour.",'Location: /posts');
     }
     public function see($slug){
         $manager = $this->getManager();
@@ -98,8 +90,7 @@ class CommentaryController extends ObjectController{
     public function delete($id){        
         $manager = $this->getManager();
         $manager->delete($id);
-        $_SESSION['success'] = "Le chapitre a bien été supprimé.";
-        header('Location: /posts'); 
+        $this->success("Le commentaire a bien été supprimé.",'Location: /posts');
     }
 
 }

@@ -9,40 +9,57 @@ class PostController extends ObjectController{
         parent::__construct("Post");
     }
 
-    public function home(){
+    public function home($page = NULL){
         $manager = $this->getManager();
-        $posts = $manager->find("10","1");
-        $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche',$posts);
+        $postNumber = 10;
+        $numberOfPosts = $manager->count();
+        $pagesTotal = ceil($numberOfPosts/$postNumber);
+        if(isset($page)){
+            $posts = $manager->find($postNumber,$page);
+            $arrayObj['pageActual'] = $page;            
+        }else{
+            $posts = $manager->find($postNumber,1);
+            $arrayObj['pageActual'] = 1;
+        }
+        if($posts){
+            $arrayObj['posts'] = $posts;
+            $arrayObj['pagesTotal'] = $pagesTotal;
+            $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche',$arrayObj);
+        }else{
+            $this->notFound();
+        }
     }
 
     public function create(){
         $inputs = ['title','content'];
-        $this->isDefine($inputs);
+        $this->isDefine($inputs,"/posts");
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-            echo("Le format du titre est incorrect.");
+            $this->error("Le format du titre est incorrect.",'/posts');
         }        
         if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            echo("Le format du contenus de l'article est incorrect.");            
+            $this->error("Le format du contenus de l'article est incorrect.",'/posts');
         }       
         $arrayObj = [];
         foreach($inputs as $input){
             $arrayObj[$input] = $_POST[$input];
-        }
-        
+        }        
         $arrayObj['slug'] = $this->slug($arrayObj['title']);
-        $manager = $this->getManager();
-        $manager->create($arrayObj);
-        $_SESSION['success'] = "Le chapitre a été ajouté avec succès.";
-        header('Location: /posts'); 
+        $manager = $this->getManager();        
+        if($manager->findOneBy('slug',$arrayObj['slug'],['slug'])){            
+            $this->error("Un post existe a déja été crée avec ce slug.",'/posts');
+        }else{
+            $manager->create($arrayObj);
+            $this->success("Le chapitre a été ajouté avec succès.",'/posts');            
+        }
     }
     public function update($id){
         $inputs = ['title','content'];
-        $this->isDefine($inputs);
+        $this->isDefine($inputs,"posts");
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-            echo("Le format du titre est incorrect.");
+            $this->error("Le format du titre est incorrect.",'/posts');
         }        
         if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            echo("Le format du contenus de l'article est incorrect.");            
+            $this->error("Le format du contenus de l'article est incorrect.",'/posts');           
         }       
         $arrayObj = [];
         foreach($inputs as $input){
@@ -51,8 +68,7 @@ class PostController extends ObjectController{
         
         $manager = $this->getManager();
         $manager->update($id,$arrayObj);
-        $_SESSION['success'] = "Le chapitre a bien été mis à jour.";
-        header('Location: /posts'); 
+        $this->success("Le chapitre a bien été mis à jour.",'Location: /posts');
     }
     public function see($slug){
         $postManager = $this->getManager();
@@ -89,29 +105,28 @@ class PostController extends ObjectController{
             //On répartis les commentaires
             $commentariesArray = [];
             foreach($commentariesLevel0Array as $commentaryLevel0){
-                $commentaryLevel0['responsesLevel1'] = [];
-                $commentaryLevel0['responsesLevel1']['responsesLevel2'] = [];
-                $commentaryLevel0['responsesLevel1']['responsesLevel2']['responsesLevel3'] = [];
+
                 foreach($commentariesLevel1Array as $commentaryLevel1){
                     if($commentaryLevel1['commentary_response_id'] == $commentaryLevel0['id']){
-                        $commentaryLevel0['responsesLevel1'][] = $commentaryLevel1;
-                        //var_dump("level1");
                         foreach($commentariesLevel2Array as $commentaryLevel2){
                             if($commentaryLevel2['commentary_response_id'] == $commentaryLevel1['id']){
-                                $commentaryLevel0['responsesLevel1']['responsesLevel2'][] = $commentaryLevel2;
-                                //var_dump("level2");
                                 foreach($commentariesLevel3Array as $commentaryLevel3){
                                     if($commentaryLevel3['commentary_response_id'] == $commentaryLevel2['id']){
-                                        $commentaryLevel0['responsesLevel1']['responsesLevel2']['responsesLevel3'][] = $commentaryLevel3;                       
-                                        //var_dump("level3");
+                                        $commentaryLevel2['responses'][] = $commentaryLevel3;
                                     }
                                 }
+                                $commentaryLevel1['responses'][] = $commentaryLevel2;
                             }
                         }
+                        $commentaryLevel0['responses'][] = $commentaryLevel1;                    
                     }
+                    
                 }
-                $commentariesArray[] = $commentaryLevel0;               
+                $commentariesArray[] = $commentaryLevel0;             
+                /*var_dump($commentaryLevel0);
+                echo("</br>");*/
             }
+            //var_dump($commentariesArray);
             $objects['post'] = $post;
             $objects['commentaries'] = $commentariesArray;
             $this->renderView('/see.twig',$post['title'],$objects);
@@ -122,8 +137,7 @@ class PostController extends ObjectController{
     public function delete($id){        
         $manager = $this->getManager();
         $manager->delete($id);
-        $_SESSION['success'] = "Le chapitre a bien été supprimé.";
-        header('Location: /posts'); 
+        $this->success("Le chapitre a bien été supprimé.",'/posts');
     }
     private function remove_accent($str){
         $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð',

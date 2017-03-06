@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for object in objects %}
+            {% for object in objects.objects %}
                 <tr>
                     <td>{{ object.id }}</td>
                     <td>{{ object.created_at }}</td>
@@ -27,4 +27,6 @@
             {% endfor %}
         </tbody>
         </table>
+        {% import 'forms.twig' as forms %}
+        {{forms.pages(objects.pageActual,objects.pagesTotal,'/posts/')}}
    {% endblock %}

@@ -18,16 +18,19 @@ abstract class PDOManager{
 
     public function find($numberOfResults, $page){
         $minLimit = ($page-1)*$numberOfResults;
-        $maxLimit = $page*$numberOfResults; 
-        $req = $this->PDO->query("SELECT * FROM ".$this->obj." LIMIT ".$minLimit.",".$maxLimit);
+        $req = $this->PDO->query("SELECT * FROM ".$this->obj." LIMIT ".$minLimit.",".$numberOfResults);
         return $req->fetchAll();
-    }
-    public function findOneBy($by,$value,array $fieldsReturnedArray){
-        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetch();
     }
     public function findBy($by,$value,array $fieldsReturnedArray){
         return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll();
     }
+    public function count(){
+        return $this->PDO->query("SELECT COUNT(*) FROM ".$this->obj)->fetch()["COUNT(*)"];
+    }
+    public function findOneBy($by,$value,array $fieldsReturnedArray){
+        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetch();
+    }
+
     public function create($arrayObj){
         $attributesString = "";
         $valuesString = "";
@@ -76,5 +79,12 @@ abstract class PDOManager{
             }         
         }
         return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");
+    }
+
+    public function getPDO(){
+        return $this->PDO;
+    }
+    public function getObj(){
+        return $this->obj;
     }
 }

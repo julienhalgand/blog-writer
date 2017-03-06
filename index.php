@@ -19,20 +19,26 @@ $router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Post.index' ,'Inde
 $router->get('/users',['flash','isAuthenticated','isAdmin'] ,'User.index' ,'Index users');
 $router->get('/commentaries',['flash','isAuthenticated','isAdmin'] ,'Commentary.index' ,'Index commentaries');
 $router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Post.add' ,'Add post');
-$router->get('/user/signup',['flash'] ,'User.add' ,'Signup');
+$router->get('/user/signup',['flash'] ,'User.signup' ,'Signup');
 $router->get('/user/signin',['flash'] ,'User.signin' ,'Signin');
 $router->post('/post/create',['flash','isAuthenticated','isAdmin'] ,'Post.create' ,'Create post');
 $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
 $router->post('/commentary/create',['flash'] ,'Commentary.create' ,'Create commentary');
 $router->post('/report/create',['flash'] ,'Report.create' ,'Create report');
+$router->get('/page/:page',['flash'],'Post.home' ,'Accueil page')->with('page', '[0-9]+');
 $router->get('/user/profil/:id',['flash'] ,'User.profil' ,'User profil')->with('id', '[0-9]+');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
 $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');
 $router->get('/post/see/:slug',['flash'] ,'Post.see' ,'See post')->with('slug', '[a-z0-9](-?[a-z0-9]+)*');
 $router->post('/post/:id',['flash','isAuthenticated','isAdmin'] , 'Post.create' , "Création d'un post")->with('id', '[0-9]+');
+$router->get('/posts/:id',['flash','isAuthenticated','isAdmin'] , 'Post.index' , "Index posts page")->with('id', '[0-9]+');
+$router->get('/commentaries/:id',['flash','isAuthenticated','isAdmin'] , 'Commentary.index' , "Index commentaries page")->with('id', '[0-9]+');
+$router->get('/users/:id',['flash','isAuthenticated','isAdmin'] , 'User.index' , "Index users page")->with('id', '[0-9]+');
 $router->post('/post/update/:id',['flash','isAuthenticated','isAdmin'] , 'Post.update' , "Update d'un post")->with('id', '[0-9]+');
 $router->post('/post/delete/:id',['flash','isAuthenticated','isAdmin'] , 'Post.delete' , "Delete d'un post")->with('id', '[0-9]+');
+$router->post('/commentary/delete/:id',['flash','isAuthenticated','isAdmin'] , 'Commentary.delete' , "Delete d'un commentary")->with('id', '[0-9]+');
+$router->post('/user/delete/:id',['flash','isAuthenticated','isAdmin'] , 'User.delete' , "Delete d'un user")->with('id', '[0-9]+');
 /****Controllers*****/
 
 /****Files****/
