@@ -7,10 +7,12 @@ class Route {
     private $callable;
     private $matches = [];
     private $params = [];
+    private $rules = [];
 
-    public function __construct($path, $callable){
+    public function __construct($path, $callable, $rules){
         $this->path = trim($path ,'/');
         $this->callable = $callable;
+        $this->rules = $rules;
     }
     
     public function with($param, $regex){
@@ -58,5 +60,8 @@ class Route {
             $path = str_replace(":$k", $v, $path);
         }
         return $path;
+    }
+    public function getRules(){
+        return $this->rules;
     }
 }

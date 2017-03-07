@@ -26,7 +26,6 @@ $router->post('/user/create',['flash'] ,'User.create' ,'Create user');
 $router->post('/commentary/create',['flash'] ,'Commentary.create' ,'Create commentary');
 $router->post('/report/create',['flash'] ,'Report.create' ,'Create report');
 $router->get('/page/:page',['flash'],'Post.home' ,'Accueil page')->with('page', '[0-9]+');
-$router->get('/user/profil/:id',['flash'] ,'User.profil' ,'User profil')->with('id', '[0-9]+');
 $router->post('/session/create',['flash'] ,'User.createSession' ,'Session user');
 $router->get('/session/signout',['flash'] ,'User.destroySession' ,'Session user');
 $router->get('/post/edit/:id',['flash','isAuthenticated','isAdmin'] ,'Post.edit' ,'Edit post')->with('id', '[0-9]+');

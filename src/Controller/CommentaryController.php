@@ -20,10 +20,10 @@ class CommentaryController extends ObjectController{
                 $arrayObj[$input] = $_POST[$input];
             }
             if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-                $this->error("Le format du contenus est incorrect.",'Location: /post/see/'.$slug);
+                $this->error("Le format du contenus est incorrect.",'/post/see/'.$slug);
             }
             if(!v::numeric()->validate($_POST[$inputs[1]])){
-                $this->error("Le format de l'id est incorrect.",'Location: /post/see/'.$slug);
+                $this->error("Le format de l'id est incorrect.",'/post/see/'.$slug);
             }
             /**
             *Si l'utilisateur est connecté
@@ -44,19 +44,19 @@ class CommentaryController extends ObjectController{
                     if($commentaryLevel < 3){
                         $arrayObj['commentary_level'] = $commentaryLevel+1;
                     }else{
-                        $this->error("Seulement 3 niveaux de commentaires sont autorisés.",'Location: /post/see/'.$slug);
+                        $this->error("Seulement 3 niveaux de commentaires sont autorisés.",'/post/see/'.$slug);
                     }                    
                 }
                 //Id de l'auteur du commentaire
                 $arrayObj['user_id'] = $_SESSION['auth']['id'];
                 //Création du commentaire
                 $commentaryManager->create($arrayObj);
-                $this->success("Votre commentaire a été ajouté avec succès.",'Location: /post/see/'.$slug);
+                $this->success("Votre commentaire a été ajouté avec succès.",'/post/see/'.$slug);
             /**
             *Si l'utilisateur n'est pas connecté
             */
             }else{
-                $this->error("Vous devez être connecté pour crée un commentaire.",'Location: /post/see/'.$slug);
+                $this->error("Vous devez être connecté pour crée un commentaire.",'/post/see/'.$slug);
             }
         }else{
             $this->notFound();
@@ -68,10 +68,10 @@ class CommentaryController extends ObjectController{
         $inputs = ['title','content'];
         $this->isDefine($inputs,"/commentaries");
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-            $this->error("Le format du titre est incorrect.",'Location: /posts');
+            $this->error("Le format du titre est incorrect.",'/posts');
         }        
         if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            $this->error("Le format du contenus de l'article est incorrect.",'Location: /posts');       
+            $this->error("Le format du contenus de l'article est incorrect.",'/posts');       
         }       
         $arrayObj = [];
         foreach($inputs as $input){
@@ -80,7 +80,7 @@ class CommentaryController extends ObjectController{
         
         $manager = $this->getManager();
         $manager->update($id,$arrayObj);
-        $this->success("Le chapitre a bien été mis à jour.",'Location: /posts');
+        $this->success("Le chapitre a bien été mis à jour.",'/posts');
     }
     public function see($slug){
         $manager = $this->getManager();

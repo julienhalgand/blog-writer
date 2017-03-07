@@ -24,9 +24,7 @@ class Router {
       return $this->add($path, $rules, $callable, $name, 'DELETE');
     }
     private function add( $path, $rules, $callable, $name, $method){
-        $policiesManager = new \App\Policies\PoliciesManager($rules);
-        $policiesManager->applyTheLaw();
-        $route = new Route($path,$callable);
+        $route = new Route($path,$callable,$rules);
         $this->routes[$method][] = $route;
         if($name){
             $this->namedRoutes[$name] = $route;
@@ -41,6 +39,8 @@ class Router {
         foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route){
             //print_r($route);
             if($route->match($this->url)){
+                $policiesManager = new \App\Policies\PoliciesManager($route->getRules());
+                $policiesManager->applyTheLaw();
                 return $route->call();
             }
         }

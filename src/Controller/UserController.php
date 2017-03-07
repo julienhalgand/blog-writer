@@ -40,7 +40,7 @@ class UserController extends ObjectController {
                     'isAdmin' => $user['is_admin']
                 );
                 $_SESSION['auth'] = $user;
-                $this->success("Bienvenue.",'/user/profil/'.$user['id']);
+                $this->success("Bienvenue.",'/');
             }else{
                 $this->error("Email ou mot de passe invalide.",'/user/signin');
             }
@@ -88,8 +88,6 @@ class UserController extends ObjectController {
     public function delete($id){        
         $manager = $this->getManager();
         $manager->delete($id);
-        $this->success("Merci de vous être inscrit sur notre site, vous pouvez maintenant vous connecter à l'aide du formulaire ci-dessous.",'/user/signin');        
-        $_SESSION['success'] = "L'utilisateur a bien été supprimé.";
-        header('Location: /users'); 
+        $this->success("Merci de vous être inscrit sur notre site, vous pouvez maintenant vous connecter à l'aide du formulaire ci-dessous.",'/users');        
     }
 }
