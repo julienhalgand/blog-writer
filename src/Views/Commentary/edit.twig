@@ -1,3 +1,5 @@
    {% extends 'layout.twig' %}
    {% block content %}
+    {% import 'forms.twig' as forms %}
+    {{forms.editCommentary("/commentary/update/#{objects.id}",objects)}}
    {% endblock %}

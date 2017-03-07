@@ -115,6 +115,28 @@
     </form>
   </div>
 {% endmacro %}
+{% macro editCommentary(action,object) %}
+    <form action={{action}}  method="POST" data-abide novalidate> 
+      <div data-abide-error class="alert callout" style="display: none;">
+        <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+      </div>
+        {% import 'inputs.twig' as inputs %}
+        <div class="row">
+          <div class="large-12 columns">
+            {{inputs.inputTextarea("content","#{object.content}",'Vous devez saisir un texte valide.','required')}}
+            {{inputs.inputHidden("post_id","#{object.id}")}}
+          </div>
+        </div>
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <button class="button" type="submit" value="Submit">Mettre à jour le commentaire</button>
+          </fieldset>
+          <fieldset class="large-6 columns">
+            <button class="button" type="reset" value="Reset">Réinitialiser</button>
+          </fieldset>
+        </div>
+    </form>
+{% endmacro %}
 {% macro addResponseToCommentary(action,idPost,idCommentary) %}
   <div id="commentaryResponse{{idCommentary}}" data-reveal>
     <form action={{action}}  method="POST" data-abide novalidate> 

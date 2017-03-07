@@ -49,7 +49,7 @@ abstract class ObjectController {
     }
     public function edit($id){
         $object = $this->manager->findOneBy('id',$id,['*']);
-        $this->renderView('/edit.twig','Tous les '.$this->objNameLowerCase.'s',$object);        
+        $this->renderView('/edit.twig','Editer',$object);        
     }
     /**
     *public function delete($id,$url,$message){

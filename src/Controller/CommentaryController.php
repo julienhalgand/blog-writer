@@ -65,14 +65,11 @@ class CommentaryController extends ObjectController{
 
     }
     public function update($id){
-        $inputs = ['title','content'];
+        $inputs = ['content'];
         $this->isDefine($inputs,"/commentaries");
         if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
             $this->error("Le format du titre est incorrect.",'/posts');
-        }        
-        if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            $this->error("Le format du contenus de l'article est incorrect.",'/posts');       
-        }       
+        }              
         $arrayObj = [];
         foreach($inputs as $input){
             $arrayObj[$input] = $_POST[$input];
@@ -80,7 +77,7 @@ class CommentaryController extends ObjectController{
         
         $manager = $this->getManager();
         $manager->update($id,$arrayObj);
-        $this->success("Le chapitre a bien été mis à jour.",'/posts');
+        $this->success("Le commentaire a bien été mis à jour.",'/commentaries');
     }
     public function see($slug){
         $manager = $this->getManager();
