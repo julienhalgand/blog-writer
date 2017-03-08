@@ -10,14 +10,22 @@ class Commentary {
     private $level;
     private $content;
 
-    public function __construct($id,$article,$commentary,$reporting,$content){
-        $this->id = $id;
-        $this->article = $article;
-        $this->commentary = $commentary;
-        $this->reports = $reports;
-        $this->content = $content;
+    public function __construct(array $objectArray){
+        $this->hydrate($objectArray);
     }
-
+    public function hydrate(array $objectArray){
+        foreach ($objectArray as $key => $value){
+            // On récupère le nom du setter correspondant à l'attribut.
+            $method = 'set'.ucfirst($key);
+                
+            // Si le setter correspondant existe.
+            if (method_exists($this, $method)){
+                // On appelle le setter.
+                $this->$method($value);
+            }
+        }
+    }
+    /*GETTERS*/
     public function getId(){
         return $this->id;
     }
@@ -33,8 +41,11 @@ class Commentary {
     public function getContent(){
         return $this->content;
     }
-
-    public function reporting(){
-        $this->reports++;
+    /*GETTERS*/
+    /*SETTERS*/
+    public function setId($id){
+        return $this->content;
     }
+    /*SETTERS*/
+    
 }

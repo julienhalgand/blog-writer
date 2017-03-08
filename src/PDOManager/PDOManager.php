@@ -24,6 +24,9 @@ abstract class PDOManager{
     public function findBy($by,$value,array $fieldsReturnedArray){
         return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll();
     }
+    public function findObjectBy($by,$value,array $fieldsReturnedArray){
+        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\".ucfirst($this->obj));
+    }
     public function count(){
         return $this->PDO->query("SELECT COUNT(*) FROM ".$this->obj)->fetch()["COUNT(*)"];
     }

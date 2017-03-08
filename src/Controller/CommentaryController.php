@@ -87,7 +87,7 @@ class CommentaryController extends ObjectController{
     public function delete($id){        
         $manager = $this->getManager();
         $manager->delete($id);
-        $this->success("Le commentaire a bien été supprimé.",'Location: /posts');
+        $this->success("Le commentaire a bien été supprimé.",'/commentaries');
     }
 
 }

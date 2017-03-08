@@ -11,7 +11,7 @@ class PostController extends ObjectController{
 
     public function home($page = NULL){
         $manager = $this->getManager();
-        $postNumber = 10;
+        $postNumber = 1;
         $numberOfPosts = $manager->count();
         $pagesTotal = ceil($numberOfPosts/$postNumber);
         if(isset($page)){
@@ -75,7 +75,13 @@ class PostController extends ObjectController{
         $post = $postManager->findOneBy('slug',$slug,['*']);
         if($post){
             $commentariesManager = new \App\PDOManager\CommentaryManager();
-            $commentaries = $commentariesManager->findBy('post_id',$post['id'],['*']);
+            //$commentariesManager->setFetchMode(PDO::FETCH_OBJ);
+            $commentariesArray = $commentariesManager->findBy('post_id',$post['id'],['*']);
+            $commentariesObjects = [];
+            foreach($commentariesArray as $commentary){
+                $commentariesObjects[] = new \App\Model\Commentary($commentary);
+            }
+            var_dump($commentariesObjects);
             /**On trie les commentaires dans l'ordre
             *   -> commentaire niveau 0 .responses
                     -> commentaire niveau 1 .responses
@@ -105,7 +111,6 @@ class PostController extends ObjectController{
             //On répartis les commentaires
             $commentariesArray = [];
             foreach($commentariesLevel0Array as $commentaryLevel0){
-
                 foreach($commentariesLevel1Array as $commentaryLevel1){
                     if($commentaryLevel1['commentary_response_id'] == $commentaryLevel0['id']){
                         foreach($commentariesLevel2Array as $commentaryLevel2){
@@ -119,8 +124,7 @@ class PostController extends ObjectController{
                             }
                         }
                         $commentaryLevel0['responses'][] = $commentaryLevel1;                    
-                    }
-                    
+                    }                   
                 }
                 $commentariesArray[] = $commentaryLevel0;             
                 /*var_dump($commentaryLevel0);

@@ -1,24 +1,31 @@
    {% extends 'layout.twig' %}
    {% block content %}
+   <div class="large-12 columns align-center">
    <p>Bienvenue sur mon blog ! Je m’appel Jean Forteroche et j’ai crée ce site dans le but de publier,
     mon prochain livre. Chaque article présent sur celui-ci, constituera un chapitre de mon roman et 
     vous pourrez venir les consulter au fur et à mesure que ceux-ci paraîtront. Il ne me reste plus 
     qu’a vous souhaiter une agréable visite.</p>
-    <div class="row" id="content">
+    </div>
       {% for object in objects.posts %}
-      <div class="medium-12 columns">
-        <div class="blog-post">
-          <h3>{{object.title}} <small>{{object.created_at}}</small></h3>
-          <p>{{object.content|raw}}</p>
+
+        <div class="large-12 columns">     
           <div class="callout">
-            <ul class="menu simple align-right">
-              <li><a href="/post/see/{{object.slug}}"><button class="button">Lire la suite</button></a></li>
-            </ul>
+          <div class="row align-center">
+            <div class="column large-1"><small>{{object.created_at|date("d/m/Y")}}</small></div>
           </div>
+          <div class="row align-center">
+            <div class="column large-1"><h3>{{object.title}}</h3></div>
+          </div>
+
+              
+            <p>{{object.content|raw}}</p>         
+              <ul class="menu simple align-center">
+                <li><a href="/post/see/{{object.slug}}"><button class="button">Continuer la lecture</button></a></li>
+              </ul>
+            </div>
         </div>
       </div>
       {% endfor %}
-    </div>
     {% import 'forms.twig' as forms %}
     {{forms.pages(objects.pageActual,objects.pagesTotal,'/page/')}}
 {% endblock %}

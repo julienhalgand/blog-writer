@@ -33,12 +33,9 @@ abstract class ObjectController {
             $objects = $this->manager->find($objectNumber,1);
             $arrayObj['pageActual'] = 1;
         }
-        if($objects){
             $arrayObj['objects'] = $objects;
             $arrayObj['pagesTotal'] = $pagesTotal;
-            $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$arrayObj);
-        }
-              
+            $this->renderView('/index.twig','Tous les '.$this->objNameLowerCase.'s',$arrayObj);            
     }
     public function see($id){
         $object = $this->manager->findOneBy('id',$id,['*']);
