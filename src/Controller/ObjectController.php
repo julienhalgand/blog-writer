@@ -79,7 +79,9 @@ abstract class ObjectController {
     public function getManager(){
         return $this->manager;
     }
-
+    public function getObjNameLowerCase(){
+        return $this->objNameLowerCase;
+    }
     public function isDefine(array $inputs, string $url){
         foreach($inputs as $input){           
             if(!isset($_POST[$input])){

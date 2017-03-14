@@ -13,4 +13,9 @@ class CommentaryManager extends PDOManager{
         //FROM utilisateur
         //INNER JOIN commande ON utilisateur.id = commande.utilisateur_id
     }
+    public function findReportsWhen($numberOfResults, $page, $where, $test, $value){
+        $minLimit = ($page-1)*$numberOfResults;
+        $req = $this->PDO->query("SELECT * FROM ".$this->obj." WHERE ".$where." ".$test." ".$value." ORDER BY ".$where." DESC LIMIT ".$minLimit.",".$numberOfResults);
+        return $req->fetchAll();
+    }
 }

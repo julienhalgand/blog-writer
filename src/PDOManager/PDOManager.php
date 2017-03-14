@@ -2,12 +2,12 @@
 namespace App\PDOManager;
 
 abstract class PDOManager{
-    private $PDO;
-    private $obj;
+    protected $PDO;
+    protected $obj;
 
     public function __construct($obj){
         try {
-            $this->PDO = new \PDO('mysql:host=localhost;dbname=blog_writer', 'root', 'root', array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_WARNING));
+            $this->PDO = new \PDO('mysql:host=localhost;dbname=blog_writer', 'root', 'root', array(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING));
             $this->PDO->setAttribute(\PDO::ATTR_EMULATE_PREPARES,false); 
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -22,10 +22,16 @@ abstract class PDOManager{
         return $req->fetchAll();
     }
     public function findBy($by,$value,array $fieldsReturnedArray){
-        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll();
+        return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function findObjectBy($by,$value,array $fieldsReturnedArray){
         return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\".ucfirst($this->obj));
+    }
+    public function findObjectByOrderBy($by,$value,array $fieldsReturnedArray,$orderBy){
+        return $this->findByRequest($by,$value,$fieldsReturnedArray,NULL,$orderBy)->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\".ucfirst($this->obj));
+    }
+    public function findObjectByGroupBy($by,$value,array $fieldsReturnedArray, $groupBy){
+        return $this->findByRequest($by,$value,$fieldsReturnedArray,$groupBy)->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\".ucfirst($this->obj));
     }
     public function count(){
         return $this->PDO->query("SELECT COUNT(*) FROM ".$this->obj)->fetch()["COUNT(*)"];
@@ -70,7 +76,7 @@ abstract class PDOManager{
         $req->execute();
     }
 
-    private function findByRequest($by,$value,array $fieldsReturnedArray){
+    private function findByRequest($by,$value,array $fieldsReturnedArray, $groupBy = NULL, $orderBy = NULL){
         $fieldsReturned = "";
         $numItems = count($fieldsReturnedArray);
         $i = 0;
@@ -81,7 +87,10 @@ abstract class PDOManager{
                 $fieldsReturned = $fieldsReturned.$fieldReturned.",";
             }         
         }
-        return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");
+        if($groupBy === NULL && $orderBy === NULL){return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."'");}
+        else if ($orderBy === NULL){return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."' GROUP BY ".$groupBy);}
+        else if ($groupBy === NULL){return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."' ORDER BY ".$orderBy);}
+        else{return $req = $this->PDO->query("SELECT ".$fieldsReturned." FROM ".$this->obj." WHERE ".$by." = '".$value."' GROUP BY ".$groupBy);}
     }
 
     public function getPDO(){

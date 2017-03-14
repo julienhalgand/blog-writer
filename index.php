@@ -17,6 +17,7 @@ $router = new App\Router\Router($_GET['url']);
 $router->get('/',['flash'],'Post.home' ,'Accueil');
 $router->get('/posts',['flash','isAuthenticated','isAdmin'] ,'Post.index' ,'Index posts');
 $router->get('/users',['flash','isAuthenticated','isAdmin'] ,'User.index' ,'Index users');
+$router->get('/reports',['flash','isAuthenticated','isAdmin'] ,'Commentary.indexReports' ,'Index reports');
 $router->get('/commentaries',['flash','isAuthenticated','isAdmin'] ,'Commentary.index' ,'Index commentaries');
 $router->get('/post/add',['flash','isAuthenticated','isAdmin'] ,'Post.add' ,'Add post');
 $router->get('/user/signup',['flash'] ,'User.signup' ,'Signup');

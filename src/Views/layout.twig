@@ -53,6 +53,7 @@
               <a href="#">Commentaires</a>
               <ul class="menu vertical">
                 <li><a href="/commentaries">Tous les commentaires</a></li>
+                <li><a href="/reports">Tous les signalements</a></li>
               </ul>
             </li>
             <li class="has-submenu">
@@ -82,7 +83,9 @@
       </div>
     {% endif %}
     <div class="row">
+    <div class="small-12 columns">
         <h1>{{title}}</h1>
+    </div>
         {% block content %}
         {% endblock %}
     </div>   

@@ -75,65 +75,30 @@ class PostController extends ObjectController{
         $post = $postManager->findOneBy('slug',$slug,['*']);
         if($post){
             $commentariesManager = new \App\PDOManager\CommentaryManager();
-            //$commentariesManager->setFetchMode(PDO::FETCH_OBJ);
-            $commentariesArray = $commentariesManager->findBy('post_id',$post['id'],['*']);
-            $commentariesObjects = [];
-            foreach($commentariesArray as $commentary){
-                $commentariesObjects[] = new \App\Model\Commentary($commentary);
-            }
+            //$commentariesManager = $commentariesManager->getPDO();
+            /**$commentariesObjects = $commentariesManager->findObjectByGroupBy('post_id',$post['id'],['*'],'commentary_response_id');
+            /**/$commentariesObjects = $commentariesManager->findObjectByOrderBy('post_id',$post['id'],['*'],'commentary_level');
+            /**$commentariesObjects = $commentariesManager->query("SELECT * FROM commentary LEFT JOIN commentary AS response ON response.commentary_response_id = commentary.id WHERE commentary.post_id = ".$post['id'])            
+            ->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\Commentary");
+            //*/
+            /*
+            echo("<pre>");
             var_dump($commentariesObjects);
-            /**On trie les commentaires dans l'ordre
-            *   -> commentaire niveau 0 .responses
-                    -> commentaire niveau 1 .responses
-                        -> commentaire niveau 2 .responses
-                            -> commentaire niveau 3
-            */
-            $commentariesLevel0Array = [];
-            $commentariesLevel1Array = [];
-            $commentariesLevel2Array = [];
-            $commentariesLevel3Array = [];
-            foreach($commentaries as $commentary){
-                switch($commentary['commentary_level']){
-                    case 0 :
-                        $commentariesLevel0Array[] = $commentary;
-                        break;
-                    case 1 :
-                        $commentariesLevel1Array[] = $commentary;
-                        break;
-                    case 2 :
-                        $commentariesLevel2Array[] = $commentary;
-                        break;
-                    case 3 :
-                        $commentariesLevel3Array[] = $commentary;
-                        break;
+            echo("</pre>");
+            //*/
+            $commentaries = [];
+            foreach($commentariesObjects as $commentary){
+                if($commentary->getCommentary_level() === 0){
+                    $commentaries[] = $commentary;
+                }else{
+
+                    $this->getMyChild($commentaries, $commentary);
                 }
             }
-            //On répartis les commentaires
-            $commentariesArray = [];
-            foreach($commentariesLevel0Array as $commentaryLevel0){
-                foreach($commentariesLevel1Array as $commentaryLevel1){
-                    if($commentaryLevel1['commentary_response_id'] == $commentaryLevel0['id']){
-                        foreach($commentariesLevel2Array as $commentaryLevel2){
-                            if($commentaryLevel2['commentary_response_id'] == $commentaryLevel1['id']){
-                                foreach($commentariesLevel3Array as $commentaryLevel3){
-                                    if($commentaryLevel3['commentary_response_id'] == $commentaryLevel2['id']){
-                                        $commentaryLevel2['responses'][] = $commentaryLevel3;
-                                    }
-                                }
-                                $commentaryLevel1['responses'][] = $commentaryLevel2;
-                            }
-                        }
-                        $commentaryLevel0['responses'][] = $commentaryLevel1;                    
-                    }                   
-                }
-                $commentariesArray[] = $commentaryLevel0;             
-                /*var_dump($commentaryLevel0);
-                echo("</br>");*/
-            }
-            //var_dump($commentariesArray);
+            //var_dump($commentaries);
             $objects['post'] = $post;
-            $objects['commentaries'] = $commentariesArray;
-            $this->renderView('/see.twig',$post['title'],$objects);
+            $objects['commentaries'] = $commentaries;
+            $this->renderView('/see.twig',$post['title'],$objects);            
         }else{
             $this->notFound();
         }
@@ -174,5 +139,15 @@ class PostController extends ObjectController{
     private function slug($str){
         return mb_strtolower(preg_replace(array('/[^a-zA-Z0-9 \'-]/', '/[ -\']+/', '/^-|-$/'),
         array('', '-', ''), $this->remove_accent($str)));
+    }
+    private function getMyChild($commentaries,$commentary){
+        foreach($commentaries as $parent){
+            //Test si niveau commentaire est correct
+            if($parent->getCommentary_level() === $commentary->getCommentary_level()-1){
+                if($parent->isMyChild($commentary)){ $parent->addChild($commentary);}
+            }else{  
+                $this->getMyChild($parent->getChilds(),$commentary);
+            }                     
+        }
     }
 }

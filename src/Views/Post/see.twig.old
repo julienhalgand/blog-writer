@@ -1,0 +1,59 @@
+   {% extends 'layout.twig' %}
+   {% block content %}
+    <div class="large-12 columns">
+        {{objects.post.content|raw}}
+        <div class="callout">
+        <p><a data-open="exampleModal1">Ajouter un commentaire</a></p>
+            <ul class="menu simple align-right">
+                {% import 'forms.twig' as forms %}
+                {{forms.addCommentary('/commentary/create',"#{objects.post.id}")}}
+                {####commentaries####}
+                {% for commentary in objects.commentaries %}
+                <div class="callout">
+                    <div class="callout">
+                        {{commentary.content}}
+                        <p><a data-open="commentaryResponse{{commentary.id}}">Répondre à ce commentaire</a></p>
+                        {{forms.addReport("/report/create","#{commentary.id}","#{objects.post.slug}")}}                   
+                        {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary.id}")}}
+                        {####response1####}
+                        {% for response1 in commentary.responses %}
+                            <div class="callout">
+                                {{response1.content}}
+                                <p><a data-open="commentaryResponse{{response1.id}}">Répondre à ce commentaire</a></p>
+                                {{forms.addReport("/report/create","#{response1.id}","#{objects.post.slug}")}}                   
+                                {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{response1.id}")}}
+                                {####response2####}
+                                {% for response2 in response1.responses %}
+                                <div class="callout">
+                                    {{response2.content}}
+                                    <p><a data-open="commentaryResponse{{response2.id}}">Répondre à ce commentaire</a></p>
+                                    {{forms.addReport("/report/create","#{response2.id}","#{objects.post.slug}")}}                   
+                                    {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{response2.id}")}}
+                                    {####response3####}
+                                    {% for response3 in response2.responses %}
+                                    <div class="callout">
+                                        {{response3.content}}
+                                        {{forms.addReport("/report/create","#{response3.id}","#{objects.post.slug}")}}                   
+                                    </div>
+                                    {% endfor %}
+                                    {####response3####}
+                                </div>
+                                {% endfor %}
+                                {####response2####}
+                            </div>                        
+                        {% endfor %}
+                        {####response1####}
+                    </div> 
+                </div>
+                {% endfor %}
+                {####commentaries####}
+                {#  <div class="callout">
+                        {{commentary.content}}
+                        <p><a data-open="commentaryResponse{{commentary.id}}">Répondre à ce commentaire</a></p>
+                        {{forms.addReport("/commentary/report")}}                   
+                        {{forms.addResponseToCommentary('/commentary/create',"#{objects.post.id}","#{commentary.id}")}}
+                    </div>#}
+            </ul>
+        </div>
+    </div>
+   {% endblock %}

@@ -7,8 +7,24 @@ class CommentaryController extends ObjectController{
 
     public function __construct(){
         parent::__construct("Commentary");
+        $this->manager = $this->getManager();
+        $this->objNameLowerCase = $this->getObjNameLowerCase();
     }
-
+    public function indexReports(){
+        $objectNumber = 1;
+        $numberOfObjects = $this->manager->count();
+        $pagesTotal = ceil($numberOfObjects/$objectNumber);
+        if(isset($page)){
+            $objects = $this->manager->findReportsWhen($objectNumber,$page,1,"number_of_reports",">",0);
+            $arrayObj['pageActual'] = $page;            
+        }else{
+            $objects = $this->manager->findReportsWhen($objectNumber,1,"number_of_reports",">",0);
+            $arrayObj['pageActual'] = 1;
+        }
+            $arrayObj['objects'] = $objects;
+            $arrayObj['pagesTotal'] = $pagesTotal;
+            $this->renderView('/indexReports.twig','Tous les '.$this->objNameLowerCase.'s',$arrayObj); 
+    }
     public function create(){
         $inputs = ['content','post_id'];
         $postManager = new \App\PDOManager\PostManager();
