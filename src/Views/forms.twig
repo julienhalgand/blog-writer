@@ -167,11 +167,7 @@
           {% import 'inputs.twig' as inputs %}
           {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
           {{inputs.inputHidden("slug","#{slug}")}}
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Signaler</button>
-        </fieldset>
-      </div>
+          <button class="hollow button alert" type="submit" value="Submit">Signaler</button>
   </form>
 {% endmacro %}
 {% macro deleteObject(action) %}

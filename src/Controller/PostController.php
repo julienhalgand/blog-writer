@@ -22,6 +22,9 @@ class PostController extends ObjectController{
             $arrayObj['pageActual'] = 1;
         }
         if($posts){
+            foreach($posts as $key => $post){
+                $posts[$key]['content'] = substr($post['content'],0,100)."...";
+            }
             $arrayObj['posts'] = $posts;
             $arrayObj['pagesTotal'] = $pagesTotal;
             $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche',$arrayObj);
@@ -78,7 +81,7 @@ class PostController extends ObjectController{
             //$commentariesManager = $commentariesManager->getPDO();
             /**$commentariesObjects = $commentariesManager->findObjectByGroupBy('post_id',$post['id'],['*'],'commentary_response_id');
             /**/$commentariesObjects = $commentariesManager->findObjectByOrderBy('post_id',$post['id'],['*'],'commentary_level');
-            /**$commentariesObjects = $commentariesManager->query("SELECT * FROM commentary LEFT JOIN commentary AS response ON response.commentary_response_id = commentary.id WHERE commentary.post_id = ".$post['id'])            
+            /**$commentariesObjects = $commentariesManager->getPDO()->query("SELECT * FROM commentary LEFT JOIN commentary AS response ON response.commentary_response_id = commentary.id WHERE commentary.post_id = ".$post['id'])            
             ->fetchAll(\PDO::FETCH_CLASS, "\\App\\Model\\Commentary");
             //*/
             /*
@@ -95,7 +98,6 @@ class PostController extends ObjectController{
                     $this->getMyChild($commentaries, $commentary);
                 }
             }
-            //var_dump($commentaries);
             $objects['post'] = $post;
             $objects['commentaries'] = $commentaries;
             $this->renderView('/see.twig',$post['title'],$objects);            

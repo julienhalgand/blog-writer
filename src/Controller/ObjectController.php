@@ -6,15 +6,14 @@ use Respect\Validation\Validator as v;
 abstract class ObjectController {
     private $loader;
     private $twig;
-    private $manager;
+    protected $manager;
     private $objName;
-    private $objNameLowerCase;
+    protected $objNameLowerCase;
 
     public function __construct($objName){
         $this->loader = new \Twig_Loader_Filesystem(path."Views");
         $this->twig =   new \Twig_Environment($this->loader, 
-        ['cache' =>  false, //'/../tmp'
-        'debug' => true 
+        ['cache' =>  false //'/../tmp'
         ]);
         $this->twig->addExtension(new \Twig_Extension_Debug());
         $managerName = "\App\PDOManager\\".$objName."Manager";

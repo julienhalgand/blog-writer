@@ -1,13 +1,28 @@
    {% extends 'layout.twig' %}
    {% block content %}
-   <div class="large-12 columns align-center">
-   <p>Bienvenue sur mon blog ! Je m’appel Jean Forteroche et j’ai crée ce site dans le but de publier,
+    <div class="large-12 columns align-center">   
+      <h1>Bienvenue sur le site de Jean Forteroche</h1>
+<div class="media-object">
+  <div class="media-object-section">
+    <div class="thumbnail">
+      <img src="data:image/jpeg;base64,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" alt="">
+    </div>
+  </div>
+  <div class="media-object-section">
+    <p>Bienvenue sur mon blog ! Je m’appel Jean Forteroche et j’ai crée ce site dans le but de publier,
     mon prochain livre. Chaque article présent sur celui-ci, constituera un chapitre de mon roman et 
     vous pourrez venir les consulter au fur et à mesure que ceux-ci paraîtront. Il ne me reste plus 
     qu’a vous souhaiter une agréable visite.</p>
-    </div>
-      {% for object in objects.posts %}
+  </div>
+</div>
+    
+    <div class="row small-up-12 medium-up-12 large-up-12" data-equalizer data-equalize-by-row="true">
+  <div class="column" data-equalizer-watch><img src= "http://i1.wp.com/www.centredesmarais.asso.fr/wp-content/uploads/2016/05/ecrivain-public.jpg"></div>
 
+</div>
+    </div>
+    <p>&nbsp;</p>
+      {% for object in objects.posts %}
         <div class="large-12 columns">     
           <div class="callout">
           <div class="row align-center">
@@ -16,10 +31,12 @@
           <div class="row align-center">
             <div class="column large-1"><h3>{{object.title}}</h3></div>
           </div>              
-            <p>{{object.content|raw}}</p>         
-              <ul class="menu simple align-center">
-                <li><a href="/post/see/{{object.slug}}"><button class="button">Continuer la lecture</button></a></li>
+            <p>{{object.content|raw}}</p>
+            <div class="menu-centered">
+              <ul class="menu simple">
+                <li><a href="/post/see/{{object.slug}}"><button class="hollow button">Continuer la lecture</button></a></li>
               </ul>
+              </div>
             </div>
         </div>
       </div>

@@ -36,6 +36,9 @@ abstract class PDOManager{
     public function count(){
         return $this->PDO->query("SELECT COUNT(*) FROM ".$this->obj)->fetch()["COUNT(*)"];
     }
+    public function existBy($by, $value){
+        return $this->PDO->query("SELECT * FROM ".$this->obj." WHERE ".$by." = '".$value."'");        
+    }
     public function findOneBy($by,$value,array $fieldsReturnedArray){
         return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetch();
     }

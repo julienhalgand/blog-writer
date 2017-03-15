@@ -10,12 +10,12 @@ class CommentaryController extends ObjectController{
         $this->manager = $this->getManager();
         $this->objNameLowerCase = $this->getObjNameLowerCase();
     }
-    public function indexReports(){
-        $objectNumber = 1;
-        $numberOfObjects = $this->manager->count();
+    public function indexReports($page = NULL){
+        $objectNumber = 10;
+        $numberOfObjects = $this->manager->countReportsWhere("number_of_reports",">",0);
         $pagesTotal = ceil($numberOfObjects/$objectNumber);
         if(isset($page)){
-            $objects = $this->manager->findReportsWhen($objectNumber,$page,1,"number_of_reports",">",0);
+            $objects = $this->manager->findReportsWhen($objectNumber,$page,"number_of_reports",">",0);
             $arrayObj['pageActual'] = $page;            
         }else{
             $objects = $this->manager->findReportsWhen($objectNumber,1,"number_of_reports",">",0);

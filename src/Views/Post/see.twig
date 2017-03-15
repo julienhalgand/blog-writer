@@ -3,26 +3,29 @@
     {% import 'forms.twig' as forms %}   
     <div class="large-12 columns">
         <div class="large-12 columns">     
-          <div class="callout">
-          <div class="row align-center">
-            <div class="column large-1"><small>{{objects.post.created_at|date("d/m/Y")}}</small></div>
+          <div class="menu-centered">          
+          <div class="row">
+            <div class="column large-12"><small>{{objects.post.created_at|date("d/m/Y")}}</small></div>
           </div>
-          <div class="row align-center">
-            <div class="column large-1"><h3>{{objects.post.title}}</h3></div>
+          <div class="row">
+            <div class="column large-12"><h3>{{objects.post.title}}</h3></div>
           </div>
+          </div>          
           <div class="row">
             <div class="column large-12">
                 {{objects.post.content|raw}}
             </div>
-          </div>                    
-					<ul class="menu simple align-center">
-						<li><a href="/post/see/{{object.slug}}"><a data-open="exampleModal1"><button class="button">Ajouter un commentaire</button></a></li>
-						{{forms.addCommentary('/commentary/create',"#{objects.post.id}")}}
-					</ul>
-					<div class="row">						
-						{% import 'macros.twig' as macros %}
-						{{macros.commentaries(objects.commentaries,objects.post.id,objects.post.slug)}}
-					</div>             
+          </div>
+          <div class="menu-centered">
+            <ul class="menu simple">
+              <li><a href="/post/see/{{object.slug}}"><a data-open="exampleModal1"><button class="hollow button">Ajouter un commentaire</button></a></li>
+              {{forms.addCommentary('/commentary/create',"#{objects.post.id}")}}
+              <p>&nbsp;</p>            
+            </ul>
+          </div>
+          <div class="row">
+						{% import 'macros.twig' as macros %}          
+						  {{macros.commentaries(objects.commentaries,objects.post.id,objects.post.slug)}}
             </div>
         </div>
     </div>

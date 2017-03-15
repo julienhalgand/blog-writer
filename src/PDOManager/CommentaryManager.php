@@ -18,4 +18,7 @@ class CommentaryManager extends PDOManager{
         $req = $this->PDO->query("SELECT * FROM ".$this->obj." WHERE ".$where." ".$test." ".$value." ORDER BY ".$where." DESC LIMIT ".$minLimit.",".$numberOfResults);
         return $req->fetchAll();
     }
+    public function countReportsWhere($where, $test, $value){
+        return $this->PDO->query("SELECT COUNT(*) FROM ".$this->obj." WHERE ".$where." ".$test." ".$value)->fetch()["COUNT(*)"];
+    }
 }
