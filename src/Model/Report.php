@@ -3,14 +3,13 @@
 namespace App\Model;
  
 class Report {
-    private $id;
-    private $commentaryId;
-    private $userId;
+    private $id,
+            $created_at,
+            $updated_at,
+            $commentaryId,
+            $userId;
 
-    public function __construct($id,$commentaryId,$userId,$tags,$content){
-        $this->id = $id;
-        $this->commentaryId = $commentaryId;
-        $this->userId = $userId;
+    public function __construct(){
     }
 
     public function getId(){

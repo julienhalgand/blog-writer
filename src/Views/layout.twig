@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
    <link rel="stylesheet" href="/assets/css/app.css">
-    <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=lb151pf67o50hrv3cdh7qlycoksi97masptf1tpt7ldb6kh8"></script>
-    <script>tinymce.init({ selector:'textarea#tinymce' });</script>
+    {% if user.isAdmin %}   
+      <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=lb151pf67o50hrv3cdh7qlycoksi97masptf1tpt7ldb6kh8"></script>   
+      <script>
+        tinymce.init({  selector:'textarea#tinymce',
+                        height: 500,
+                        plugins: [
+                              "advlist autolink lists link image charmap print preview anchor",
+                              "searchreplace visualblocks code fullscreen",
+                              "insertdatetime media table contextmenu paste imagetools"
+                          ]
+        });
+       </script>
+    {% endif %}
   </head>
   <body>
     {% if user %}
@@ -17,8 +28,7 @@
           </ul>               
         </div>         
         <div class="top-bar-right">     
-          <ul class="dropdown menu" data-dropdown-menu>          
-            <li><a href="/user/profil/{{user.id}}">Profil</a></li>
+          <ul class="dropdown menu" data-dropdown-menu>
             <li><a href="/session/signout">Se déconnecter</a></li>
           </ul>
         </div>
@@ -38,7 +48,7 @@
         </div>
       </div>
     {% endif %}
-    {% if user['isAdmin'] %}
+    {% if user.isAdmin %}
       <div class="top-bar">         
         <div class="top-bar-left">     
           <ul class="dropdown menu" data-dropdown-menu>          
@@ -82,10 +92,8 @@
         </button>
       </div>
     {% endif %}
-    <div class="row">
         {% block content %}
-        {% endblock %}
-    </div>   
+        {% endblock %}  
     <script src="/assets/js/vendor/jquery.js"></script>
     <script src="/assets/js/vendor/whatinput.js"></script>
     <script src="/assets/js/vendor/motionui.js"></script>

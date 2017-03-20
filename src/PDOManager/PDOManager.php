@@ -42,7 +42,12 @@ abstract class PDOManager{
     public function findOneBy($by,$value,array $fieldsReturnedArray){
         return $this->findByRequest($by,$value,$fieldsReturnedArray)->fetch();
     }
-
+    public function findDesc($numberOfResults, $page){
+        $minLimit = ($page-1)*$numberOfResults;
+        $req = $this->PDO->query("SELECT * FROM ".$this->obj." ORDER BY created_at DESC LIMIT ".$minLimit.",".$numberOfResults);
+        return $req->fetchAll();
+    }
+    
     public function create($arrayObj){
         $attributesString = "";
         $valuesString = "";

@@ -1,8 +1,5 @@
 {% extends 'layout.twig' %}
 {% block content %}
-    {% import 'forms.twig' as forms %}
-        <div class="column large-6 align-center">
-            {{forms.addSession('/session/create')}}
-        </div>
-
+    {% import 'forms.twig' as forms %}       
+    {{forms.addSession('/session/create')}}
 {% endblock %}

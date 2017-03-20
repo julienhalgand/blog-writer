@@ -18,8 +18,8 @@
             {% for object in objects.objects %}
                 <tr>
                     <td>{{ object.id }}</td>
-                    <td>{{ object.created_at }}</td>
-                    <td>{{ object.updated_at }}</td>
+                    <td>{{ object.created_at|date("d/m/Y H:i") }}</td>
+                    <td>{{ object.updated_at|date("d/m/Y H:i") }}</td>
                     <td>{{ object.content }}</td>
                     <td>{{ object.commentary_response_id }}</td>
                     <td>{{ object.commentary_level }}</td>

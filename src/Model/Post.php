@@ -3,16 +3,16 @@
 namespace App\Model;
  
 class Post {
-    private $id;
-    private $title;
-    private $slug;
-    private $content;
-    private $commentaries;
+    private $id,
+            $created_at,
+            $updated_at,
+            $title,
+            $slug,
+            $summary,
+            $content,
+            $commentaries;
 
-    public function __construct(string $title, string $content){
-        $this->slug = $slug;
-        $this->title = $title;
-        $this->content = $content;
+    public function __construct(){
     }
     public function getId(){
         return $this->id;

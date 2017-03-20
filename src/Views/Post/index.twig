@@ -6,9 +6,9 @@
                 <th>Id</th>
                 <th>Crée le </th>
                 <th>Mis à jour le</th>
-                <th>Slug</th>
+                <th width="100">Slug</th>
                 <th>Titre</th>
-                <th>Contenus</th>
+                <th width="600">Résumé</th>
                 <th>Voir</th>
                 <th>Editer</th>
                 <th>Supprimer</th>
@@ -18,11 +18,11 @@
             {% for object in objects.objects %}
                 <tr>
                     <td>{{ object.id }}</td>
-                    <td>{{ object.created_at }}</td>
-                    <td>{{ object.updated_at }}</td>
+                    <td>{{ object.created_at|date("d/m/Y H:i") }}</td>
+                    <td>{{ object.updated_at|date("d/m/Y H:i") }}</td>
                     <td>{{ object.slug }}</td>
                     <td>{{ object.title }}</td>
-                    <td>{{ object.content|raw }}</td>
+                    <td>{{ object.summary }}</td>
                     <td><a href="/post/see/{{ object.slug }}"><button class="button">Voir</button></a></td>
                     <td><a href="/post/edit/{{ object.id }}"><button class="success button">Éditer</button></a></td>
                     {% import 'forms.twig' as forms %}

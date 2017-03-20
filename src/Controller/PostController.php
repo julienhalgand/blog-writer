@@ -8,23 +8,34 @@ class PostController extends ObjectController{
     public function __construct(){
         parent::__construct("Post");
     }
-
+    public function index($page = NULL){
+        $objectNumber = 10;
+        $numberOfObjects = $this->manager->count();
+        $pagesTotal = ceil($numberOfObjects/$objectNumber);
+        if(isset($page)){
+            $objects = $this->manager->findDesc($objectNumber,$page);
+            $arrayObj['pageActual'] = $page;            
+        }else{
+            $objects = $this->manager->findDesc($objectNumber,1);
+            $arrayObj['pageActual'] = 1;
+        }
+        $arrayObj['objects'] = $objects;
+        $arrayObj['pagesTotal'] = $pagesTotal;
+        $this->renderView('/index.twig','Tous les posts',$arrayObj);            
+    }
     public function home($page = NULL){
         $manager = $this->getManager();
-        $postNumber = 1;
+        $postNumber = 10;
         $numberOfPosts = $manager->count();
         $pagesTotal = ceil($numberOfPosts/$postNumber);
         if(isset($page)){
-            $posts = $manager->find($postNumber,$page);
+            $posts = $manager->findDesc($postNumber,$page);
             $arrayObj['pageActual'] = $page;            
         }else{
-            $posts = $manager->find($postNumber,1);
+            $posts = $manager->findDesc($postNumber,1);
             $arrayObj['pageActual'] = 1;
         }
         if($posts){
-            foreach($posts as $key => $post){
-                $posts[$key]['content'] = substr($post['content'],0,100)."...";
-            }
             $arrayObj['posts'] = $posts;
             $arrayObj['pagesTotal'] = $pagesTotal;
             $this->renderView('/home.twig','Bienvenue sur le site de Jean Forteroche',$arrayObj);
@@ -34,14 +45,17 @@ class PostController extends ObjectController{
     }
 
     public function create(){
-        $inputs = ['title','content'];
+        $inputs = ['title','summary','content'];
         $this->isDefine($inputs,"/posts");
-        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
+        if(!v::stringType()->length(1,255)->validate($_POST[$inputs[0]])){
             $this->error("Le format du titre est incorrect.",'/posts');
-        }        
-        if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
-            $this->error("Le format du contenus de l'article est incorrect.",'/posts');
-        }       
+        }
+        if(!v::stringType()->length(1,255)->validate($_POST[$inputs[1]])){
+            $this->error("Le format du résumé est incorrect.",'/posts');
+        }
+        if(!v::stringType()->length(1,pow(2,32)-1)->validate($_POST[$inputs[2]])){
+            $this->error("Le format du contenus de l'article est incorrect.",'/posts');           
+        }      
         $arrayObj = [];
         foreach($inputs as $input){
             $arrayObj[$input] = $_POST[$input];
@@ -56,22 +70,25 @@ class PostController extends ObjectController{
         }
     }
     public function update($id){
-        $inputs = ['title','content'];
-        $this->isDefine($inputs,"posts");
-        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
+        $inputs = ['title','summary','content'];
+        $this->isDefine($inputs,"/posts");
+        if(!v::stringType()->length(1,255)->validate($_POST[$inputs[0]])){
             $this->error("Le format du titre est incorrect.",'/posts');
-        }        
-        if(!v::stringType()->length(1,65535)->validate($_POST[$inputs[1]])){
+        }
+        if(!v::stringType()->length(1,255)->validate($_POST[$inputs[1]])){
+            $this->error("Le format du résumé est incorrect.",'/posts');
+        }
+        if(!v::stringType()->length(1,pow(2,32)-1)->validate($_POST[$inputs[2]])){
             $this->error("Le format du contenus de l'article est incorrect.",'/posts');           
-        }       
+        }         
         $arrayObj = [];
         foreach($inputs as $input){
             $arrayObj[$input] = $_POST[$input];
         }
-        
+        $arrayObj['slug'] = $this->slug($arrayObj['title']);
         $manager = $this->getManager();
         $manager->update($id,$arrayObj);
-        $this->success("Le chapitre a bien été mis à jour.",'Location: /posts');
+        $this->success("Le chapitre a bien été mis à jour.",'/posts');
     }
     public function see($slug){
         $postManager = $this->getManager();
@@ -94,7 +111,6 @@ class PostController extends ObjectController{
                 if($commentary->getCommentary_level() === 0){
                     $commentaries[] = $commentary;
                 }else{
-
                     $this->getMyChild($commentaries, $commentary);
                 }
             }
@@ -136,12 +152,12 @@ class PostController extends ObjectController{
                         'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i',
                         'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
         return str_replace($a, $b, $str);
-    }
-
+    } 
     private function slug($str){
         return mb_strtolower(preg_replace(array('/[^a-zA-Z0-9 \'-]/', '/[ -\']+/', '/^-|-$/'),
         array('', '-', ''), $this->remove_accent($str)));
     }
+
     private function getMyChild($commentaries,$commentary){
         foreach($commentaries as $parent){
             //Test si niveau commentaire est correct

@@ -14,9 +14,6 @@ class UserController extends ObjectController {
     public function signup(){
         $this->renderView('/signup.twig','Inscription');
     }
-    public function profil(){
-        $this->renderView('/profil.twig','Profil');
-    }
     public function createSession(){
         //Tests
         $inputs = ['email','password'];
@@ -81,9 +78,6 @@ class UserController extends ObjectController {
             $manager->create($arrayObj);
             $this->success("Merci de vous être inscrit sur notre site, vous pouvez maintenant vous connecter à l'aide du formulaire ci-dessous.",'/user/signin');            
         }
-    }
-    public function update($slug, $id){
-        
     }
     public function delete($id){        
         $manager = $this->getManager();

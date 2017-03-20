@@ -1,19 +1,19 @@
-{% macro commentaries(commentaries,postId,postSlug) %}
+{% macro commentaries(commentaries,post) %}
 {% import 'forms.twig' as forms %}
 <div class="column large-12 callout">
     {% for commentary in commentaries %}       
-            {{commentary.content}}
-                {{forms.addReport("/report/create","#{commentary.id}",postSlug)}}
-            
+        {{commentary.content}}
+        {{forms.addReport("/report/create","#{commentary.id}",post.slug)}}
+        {% if commentary.commentary_level != 3 %}           
             <div class="button-group menu-centered">
                 <a data-open="commentaryResponse{{commentary.id}}" class="hollow button">Répondre</a>
-                {{forms.addResponseToCommentary('/commentary/create',postId,"#{commentary.id}")}}
+                {{forms.addResponseToCommentary('/commentary/create',post.id,"#{commentary.id}")}}
             </div>
-
+        {% endif %}
         {#Tant qu'il y a des enfants#}
         {% if commentary.getChilds() %}
             {% import _self as macros %}
-            {{macros.commentaries(commentary.getChilds(),postId,postSlug)}}
+            {{macros.commentaries(commentary.getChilds(),post)}}
         {% endif %}
     {% endfor %}
 </div>

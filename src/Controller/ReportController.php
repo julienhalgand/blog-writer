@@ -9,7 +9,6 @@ class ReportController extends ObjectController{
         parent::__construct("Report");
     }
     public function create(){
-        if(!array_key_exists('auth',$_SESSION)){
             $inputs = ['commentary_id'];
             if(!v::numeric()->validate($_POST[$inputs[0]])){
                 $this->error("Le format de l'id est incorrect.",'/post/see/'.$_POST['slug']);
@@ -29,8 +28,5 @@ class ReportController extends ObjectController{
             }else{
                 $this->error("Vous avez déja signalé ce commentaire.",'/post/see/'.$_POST['slug']);
             }
-        }else{
-                $this->error("Vous devez être connecté pour signaler un commentaire.",'/post/see/'.$_POST['slug']);            
-        }
     }
 }

@@ -1,0 +1,15 @@
+        <div class="row medium-8 large-7 columns">
+          <small>{{object.created_at|date("d/m/Y")}}</small>
+        </div>
+        <div class="column large-12">
+          <h3>{{object.title}}</h3>          
+        <div class="column large-12">         
+          {{object.content|raw}}
+        </div>
+        <div class="row">
+          <div class="large-6 large-centered columns">
+            <div class="button-group menu-centered">
+              <li><a href="/post/see/{{object.slug}}"><button class="hollow button">Continuer la lecture</button></a></li>
+            </div>
+          </div>
+        </div>

@@ -1,5 +1,5 @@
    {% extends 'layout.twig' %}
    {% block content %}
     {% import 'forms.twig' as forms %}
-    {{forms.editPost("/post/update/#{objects.id}",objects)}}
+    {{forms.post("/post/update/#{objects.id}",objects)}}
    {% endblock %}

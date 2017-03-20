@@ -14,8 +14,8 @@
             {% for object in objects.objects %}
                 <tr>
                     <td>{{ object.id }}</td>
-                    <td>{{ object.created_at }}</td>
-                    <td>{{ object.updated_at }}</td>
+                    <td>{{ object.created_at|date("d/m/Y H:i") }}</td>
+                    <td>{{ object.updated_at|date("d/m/Y H:i") }}</td>
                     <td>{{ object.email }}</td>
                     {% import 'forms.twig' as forms %}
                     <td>{{forms.deleteObject("/user/delete/#{object.id}")}}</td> 

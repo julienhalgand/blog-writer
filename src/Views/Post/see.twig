@@ -23,10 +23,12 @@
               <p>&nbsp;</p>            
             </ul>
           </div>
+          {% if objects.commentaries %}          
           <div class="row">
 						{% import 'macros.twig' as macros %}          
-						  {{macros.commentaries(objects.commentaries,objects.post.id,objects.post.slug)}}
-            </div>
+						{{macros.commentaries(objects.commentaries,objects.post)}}
+          </div>
+          {% endif %}
         </div>
     </div>
    {% endblock %}

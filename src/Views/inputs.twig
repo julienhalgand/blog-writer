@@ -25,14 +25,14 @@
       </label>
       <p class="help-text" id="exampleHelpText"></p>
 {% endmacro %}
-{% macro inputTextarea(name,placeholder,errorMessage) %}
+{% macro inputTextarea(name,placeholder,errorMessage,helpText) %}
       <label>Champs requis
       <textarea name="{{name}}" rows="10" cols="50" aria-describedby="exampleHelpText" {{required}}>{{placeholder}}</textarea>
         <span class="form-error">
           {{errorMessage}}
         </span>
       </label>
-      <p class="help-text" id="exampleHelpText"></p>
+      <p class="help-text" id="exampleHelpText">{{helpText}}</p>
 {% endmacro %}
 {% macro inputTextMail(name,placeholder,errorMessage,helpText,required) %}
       <label>Champ requis

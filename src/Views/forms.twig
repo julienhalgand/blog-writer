@@ -1,204 +1,206 @@
-{% macro addPost(action) %}
-  <form action={{action}}  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
-      {% import 'inputs.twig' as inputs %}
-      <div class="row">
-        <div class="large-12 columns">
-          {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required')}}           
-        </div>
-        <div class="large-12 columns">
-          {{inputs.inputTextTinyMCE("content",'Contenu du post','Vous devez saisir un texte valide.','required')}}           
-        </div>
-      </div>
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Créer un article</button>
-        </fieldset>
-        <fieldset class="large-6 columns">
-          <button class="button" type="reset" value="Reset">Réinitialiser</button>
-        </fieldset>
-      </div>
-  </form>
-{% endmacro %}
-{% macro editPost(action,object) %}
-  <form action="{{action}}"  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
-      {% import 'inputs.twig' as inputs %}
-      <div class="row">
-        <div class="large-12 columns">
-          {{inputs.inputText("title","Titre de l'article",'Vous devez saisir un titre valide.','Saisissez un titre','required',object.title)}}           
-        </div>
-        <div class="large-12 columns">
-          {{inputs.inputTextTinyMCE("content",object.content,'Vous devez saisir un texte valide.','required')}}           
-        </div>
-      </div>
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Mettre à jour l'article</button>
-        </fieldset>
-        <fieldset class="large-6 columns">
-          <button class="button" type="reset" value="Reset">Réinitialiser</button>
-        </fieldset>
-      </div>
-  </form>
-{% endmacro %}
-{% macro addUser(action) %}
-  <form action={{action}}  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
-      {% import 'inputs.twig' as inputs %}
-      <div class="row">
-        <div class="large-12 columns">
-          {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
-          {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
-          {{inputs.inputTextPasswordConfirmation("confirmationPassword",'Ressaisissez votre mot de passe.','Ressaisissez votre mot de passe','Les 2 deux mots de passe doivent correspondrent.','required')}}           
-        </div>
-      </div>
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Créer un compte</button>
-        </fieldset>
-        <fieldset class="large-6 columns">
-          <button class="button" type="reset" value="Reset">Réinitialiser</button>
-        </fieldset>
-      </div>
-  </form>
-{% endmacro %}
-{% macro addSession(action) %}
-  <form action={{action}}  method="POST" data-abide novalidate> 
-    <div data-abide-error class="alert callout" style="display: none;">
-      <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-    </div>
-      {% import 'inputs.twig' as inputs %}
-      <div class="row">
-        <div class="large-12 columns">
-          {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
-          {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
-        </div>
-      </div>
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="button" type="submit" value="Submit">Se connecter</button>
-        </fieldset>
-        <fieldset class="large-6 columns">
-          <button class="button" type="reset" value="Reset">Réinitialiser</button>
-        </fieldset>
-      </div>
-  </form>
-{% endmacro %}
-{% macro addCommentary(action,idPost) %}
-  <div id="exampleModal1" data-reveal>
-    <form action={{action}}  method="POST" data-abide novalidate> 
+{#Post#}
+  {% macro post(action,object) %}
+    <form action="{{action}}"  method="POST" data-abide novalidate> 
       <div data-abide-error class="alert callout" style="display: none;">
         <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
       </div>
         {% import 'inputs.twig' as inputs %}
         <div class="row">
           <div class="large-12 columns">
-            {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
-            {{inputs.inputHidden("post_id","#{idPost}")}}
+            {{inputs.inputText("title","Titre du chapitre",'Vous devez saisir un titre valide.','255 caractères maximum','required',object.title)}}           
           </div>
-        </div>
-        <div class="row">
-          <fieldset class="large-6 columns">
-            <button class="button" type="submit" value="Submit">Ajouter un commentaire</button>
-          </fieldset>
-          <fieldset class="large-6 columns">
-            <button class="button" type="reset" value="Reset">Réinitialiser</button>
-          </fieldset>
-        </div>
-    </form>
-  </div>
-{% endmacro %}
-{% macro editCommentary(action,object) %}
-    <form action={{action}}  method="POST" data-abide novalidate> 
-      <div data-abide-error class="alert callout" style="display: none;">
-        <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-      </div>
-        {% import 'inputs.twig' as inputs %}
-        <div class="row">
           <div class="large-12 columns">
-            {{inputs.inputTextarea("content","#{object.content}",'Vous devez saisir un texte valide.','required')}}
-            {{inputs.inputHidden("post_id","#{object.id}")}}
+            {{inputs.inputTextarea("summary","Résumé du chapitre",'Vous devez saisir un résumé valide.','255 caractères maximum','required',object.summary)}}           
           </div>
-        </div>
-        <div class="row">
-          <fieldset class="large-6 columns">
-            <button class="button" type="submit" value="Submit">Mettre à jour le commentaire</button>
-          </fieldset>
-          <fieldset class="large-6 columns">
-            <button class="button" type="reset" value="Reset">Réinitialiser</button>
-          </fieldset>
-        </div>
-    </form>
-{% endmacro %}
-{% macro addResponseToCommentary(action,idPost,idCommentary) %}
-  <div id="commentaryResponse{{idCommentary}}" data-reveal>
-    <form action={{action}}  method="POST" data-abide novalidate> 
-      <div data-abide-error class="alert callout" style="display: none;">
-        <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
-      </div>
-        {% import 'inputs.twig' as inputs %}
-        <div class="row">
           <div class="large-12 columns">
-            {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
-            {{inputs.inputHidden("post_id","#{idPost}")}}
-            {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
+            {% if object.content %}
+              {% set content = object.content %}
+              {% set submitText = "Mettre à jour le chapitre" %}
+            {% else %}
+              {% set content = "Contenu du chapitre" %}
+              {% set submitText = "Ajouter le chapitre" %}              
+            {% endif %}
+            {{inputs.inputTextTinyMCE("content",content,'Vous devez saisir un texte valide.','required')}}           
           </div>
         </div>
         <div class="row">
-          <fieldset class="large-6 columns">
-            <button class="button" type="submit" value="Submit">Ajouter un commentaire</button>
-          </fieldset>
-          <fieldset class="large-6 columns">
-            <button class="button" type="reset" value="Reset">Réinitialiser</button>
-          </fieldset>
-        </div>
+            <div class="large-6 large-centered columns">
+              <div class="button-group menu-centered">
+                <button class="button" type="submit" value="Submit">{{submitText}}</button>
+                <button class="button" type="reset" value="Reset">Réinitialiser</button>
+              </div>
+            </div>
+          </div>
     </form>
-  </div>
-{% endmacro %}
-{% macro addReport(action,idCommentary,slug) %}
-  <form action={{action}}  method="POST" data-abide novalidate>
+  {% endmacro %}
+{#Post#}
+{#Commentary#}
+  {% macro addCommentary(action,idPost) %}
+    <div class="reveal" id="exampleModal1" data-reveal data-close-on-click="true" data-animation-in="slide-in" data-animation-out="slide-out">
+      <form action={{action}}  method="POST" data-abide novalidate> 
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+        </div>
           {% import 'inputs.twig' as inputs %}
-          {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
-          {{inputs.inputHidden("slug","#{slug}")}}
-          <button class="hollow button alert" type="submit" value="Submit">Signaler</button>
-  </form>
-{% endmacro %}
-{% macro deleteObject(action) %}
-  <form action={{action}}  method="POST">
-      <div class="row">
-        <fieldset class="large-6 columns">
-          <button class="alert button" type="submit" value="Submit">Supprimer</button>
-        </fieldset>
-      </div>
-  </form>
-{% endmacro %}
-{% macro pages(pageActual,pagesTotal,url) %}
-    <div class="large-12 columns">
-      <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-        {% if pageActual == 1 %} 
-          <li class="disabled">Précédente</li>
-        {% else %}
-        <li><a href="{{ url }}{{ pageActual - 1 }}" aria-label="Next page">Précédente</a></li>
-        {% endif %}
-        {% for i in  1..pagesTotal %}
-          {% if i == pageActual %}       
-            <li class="current"><span class="show-for-sr">You're on page</span> {{i}}</li>
-          {% else %}
-            <li><a href="{{ url }}{{i}}" aria-label="Page {{i}}">{{i}}</a></li>
-          {% endif %} 
-        {% endfor %}
-        {% if pageActual == pagesTotal %} 
-          <li class="disabled">Suivante</li>
-        {% else %}
-        <li><a href="{{ url }}{{ pageActual + 1 }}" aria-label="Next page">Suivante</a></li>
-        {% endif %}
-      </ul>
+          <div class="row">
+            <div class="large-12 columns">
+              {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
+              {{inputs.inputHidden("post_id","#{idPost}")}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-6 large-centered columns">
+              <div class="button-group menu-centered">
+                <button class="button" type="submit" value="Submit">Ajouter un commentaire</button>
+                <button class="button" type="reset" value="Reset">Réinitialiser</button>
+              </div>
+            </div>
+          </div>
+      </form>
     </div>
-{% endmacro %}
+  {% endmacro %}
+  {% macro editCommentary(action,object) %}
+      <form action={{action}}  method="POST" data-abide novalidate> 
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+        </div>
+          {% import 'inputs.twig' as inputs %}
+          <div class="row">
+            <div class="large-12 columns">
+              {{inputs.inputTextarea("content","#{object.content}",'Vous devez saisir un texte valide.','required')}}
+              {{inputs.inputHidden("post_id","#{object.id}")}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-6 large-centered columns">
+              <div class="button-group menu-centered">
+                <button class="button" type="submit" value="Submit">Mettre à jour ce commentaire</button>
+                <button class="button" type="reset" value="Reset">Réinitialiser</button>
+              </div>
+            </div>
+          </div>
+      </form>
+  {% endmacro %}
+  {% macro addResponseToCommentary(action,idPost,idCommentary) %}
+    <div id="commentaryResponse{{idCommentary}}" data-reveal>
+      <form action={{action}}  method="POST" data-abide novalidate> 
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+        </div>
+          {% import 'inputs.twig' as inputs %}
+          <div class="row">
+            <div class="large-12 columns">
+              {{inputs.inputTextarea("content",'Contenu du commentaire','Vous devez saisir un texte valide.','required')}}
+              {{inputs.inputHidden("post_id","#{idPost}")}}
+              {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-6 large-centered columns">
+              <div class="button-group menu-centered">
+                <button class="button" type="submit" value="Submit">Répondre à ce commentaire</button>
+                <button class="button" type="reset" value="Reset">Réinitialiser</button>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+  {% endmacro %}
+  {% macro addReport(action,idCommentary,slug) %}
+    <form action={{action}}  method="POST" data-abide novalidate>
+      {% import 'inputs.twig' as inputs %}
+      {{inputs.inputHidden("commentary_id","#{idCommentary}")}}
+      {{inputs.inputHidden("slug","#{slug}")}}
+      <button class="hollow button alert" type="submit" value="Submit">Signaler</button>
+    </form>
+  {% endmacro %}
+
+{#Commentary#}
+{#User#}
+  {% macro addUser(action) %}
+    <div class="column align-self-middle">
+      <form action={{action}}  method="POST" data-abide novalidate> 
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+        </div>
+          {% import 'inputs.twig' as inputs %}
+          <div class="row">
+            <div class="large-6 medium-12 small-12 large-centered columns">
+              {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
+              {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+              {{inputs.inputTextPasswordConfirmation("confirmationPassword",'Ressaisissez votre mot de passe.','Ressaisissez votre mot de passe','Les 2 deux mots de passe doivent correspondrent.','required')}}           
+            </div>
+          </div>
+            <div class="row">
+              <div class="large-6 large-centered columns">
+                <div class="button-group menu-centered">
+                  <button class="button" type="submit" value="Submit">Inscription</button>
+                  <button class="button" type="reset" value="Reset">Réinitialiser</button>
+                </div>
+              </div>
+            </div>
+      </form>
+    </div>
+  {% endmacro %}
+  {% macro addSession(action) %}
+    <div class="column align-self-middle">
+      <form action={{action}}  method="POST" data-abide novalidate> 
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> Les champs en rouges sont incorrects.</p>
+        </div>
+          {% import 'inputs.twig' as inputs %}
+          <div class="row">
+            <div class="large-6 medium-12 small-12 large-centered columns">
+              {{inputs.inputTextMail("email","Votre adresse email",'Vous devez saisir un email valide.','Saisissez un email','required')}}           
+              {{inputs.inputTextPassword("password",'Votre mot de passe','Vous devez saisir un mot de passe valide.','Saisissez votre mot de passe','required')}}           
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-6 large-centered columns">
+              <div class="button-group menu-centered">
+                <button class="button" type="submit" value="Submit">Se connecter</button>
+                <button class="button" type="reset" value="Reset">Réinitialiser</button>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+  {% endmacro %}
+{#User#}
+{#Objects#}
+  {% macro deleteObject(action) %}
+    <form action={{action}}  method="POST">
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <button class="alert button" type="submit" value="Submit">Supprimer</button>
+          </fieldset>
+        </div>
+    </form>
+  {% endmacro %}
+{#Objects#}
+
+{#Pages#}
+  {% macro pages(pageActual,pagesTotal,url) %}
+      <div class="large-12 columns">
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+          {% if pageActual == 1 %} 
+            <li class="disabled">Précédente</li>
+          {% else %}
+          <li><a href="{{ url }}{{ pageActual - 1 }}" aria-label="Next page">Précédente</a></li>
+          {% endif %}
+          {% for i in  1..pagesTotal %}
+            {% if i == pageActual %}       
+              <li class="current"><span class="show-for-sr">You're on page</span> {{i}}</li>
+            {% else %}
+              <li><a href="{{ url }}{{i}}" aria-label="Page {{i}}">{{i}}</a></li>
+            {% endif %} 
+          {% endfor %}
+          {% if pageActual == pagesTotal %} 
+            <li class="disabled">Suivante</li>
+          {% else %}
+          <li><a href="{{ url }}{{ pageActual + 1 }}" aria-label="Next page">Suivante</a></li>
+          {% endif %}
+        </ul>
+      </div>
+  {% endmacro %}
+{#Pages#}

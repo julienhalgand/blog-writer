@@ -10,6 +10,26 @@ class CommentaryController extends ObjectController{
         $this->manager = $this->getManager();
         $this->objNameLowerCase = $this->getObjNameLowerCase();
     }
+        public function index($page = NULL){
+        $objectNumber = 10;
+        $numberOfObjects = $this->manager->count();
+        $pagesTotal = ceil($numberOfObjects/$objectNumber);
+        if(isset($page)){
+            $objects = $this->manager->findDesc($objectNumber,$page);
+            $arrayObj['pageActual'] = $page;            
+        }else{
+            $objects = $this->manager->findDesc($objectNumber,1);
+            $arrayObj['pageActual'] = 1;
+        }
+            foreach($objects as $key => $post){
+                if($this->strLenTo($objects[$key]['content'],100)){
+                    $objects[$key]['content'] = substr($post['content'],0,100)."...";                    
+                }
+            }
+            $arrayObj['objects'] = $objects;
+            $arrayObj['pagesTotal'] = $pagesTotal;
+            $this->renderView('/index.twig','Tous les commentaires',$arrayObj);            
+    }
     public function indexReports($page = NULL){
         $objectNumber = 10;
         $numberOfObjects = $this->manager->countReportsWhere("number_of_reports",">",0);
@@ -35,8 +55,8 @@ class CommentaryController extends ObjectController{
             foreach($inputs as $input){
                 $arrayObj[$input] = $_POST[$input];
             }
-            if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-                $this->error("Le format du contenus est incorrect.",'/post/see/'.$slug);
+            if(!v::stringType()->length(1,250)->validate($_POST[$inputs[0]])){
+                $this->error("Le format du contenus est incorrect (250 caractères maximum).",'/post/see/'.$slug);
             }
             if(!v::numeric()->validate($_POST[$inputs[1]])){
                 $this->error("Le format de l'id est incorrect.",'/post/see/'.$slug);
@@ -83,8 +103,8 @@ class CommentaryController extends ObjectController{
     public function update($id){
         $inputs = ['content'];
         $this->isDefine($inputs,"/commentaries");
-        if(!v::stringType()->length(1,50)->validate($_POST[$inputs[0]])){
-            $this->error("Le format du titre est incorrect.",'/posts');
+        if(!v::stringType()->length(1,250)->validate($_POST[$inputs[0]])){
+            $this->error("Le format du contenu est incorrect (250 caractères maximum).",'/commentaries');
         }              
         $arrayObj = [];
         foreach($inputs as $input){
@@ -92,6 +112,7 @@ class CommentaryController extends ObjectController{
         }
         
         $manager = $this->getManager();
+        $arrayObj['number_of_reports'] = 0;
         $manager->update($id,$arrayObj);
         $this->success("Le commentaire a bien été mis à jour.",'/commentaries');
     }

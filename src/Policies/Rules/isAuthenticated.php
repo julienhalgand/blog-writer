@@ -4,7 +4,7 @@ if(!array_key_exists('auth',$_SESSION)){
     $this->twig =   new \Twig_Environment($this->loader, 
     ['cache' =>  false //'/../tmp'
     ]);
-        function error(string $message, string $url){
+    function error(string $message, string $url){
         $_SESSION['error'] = $message;
         header("Location: ".$url);
         die; 

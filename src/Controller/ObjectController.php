@@ -26,10 +26,10 @@ abstract class ObjectController {
         $numberOfObjects = $this->manager->count();
         $pagesTotal = ceil($numberOfObjects/$objectNumber);
         if(isset($page)){
-            $objects = $this->manager->find($objectNumber,$page);
+            $objects = $this->manager->findDesc($objectNumber,$page);
             $arrayObj['pageActual'] = $page;            
         }else{
-            $objects = $this->manager->find($objectNumber,1);
+            $objects = $this->manager->findDesc($objectNumber,1);
             $arrayObj['pageActual'] = 1;
         }
             $arrayObj['objects'] = $objects;
@@ -97,5 +97,11 @@ abstract class ObjectController {
         $_SESSION['success'] = $message;
         header("Location: ".$url);
         die; 
+    }
+    protected function strLenTo($string,$length){
+        if(strlen($string) > $length){
+            return true;
+        }
+        return false;
     }
 }

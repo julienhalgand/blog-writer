@@ -7,8 +7,14 @@ class Router {
     private $url;
     private $routes = [];
     private $namedRoutes = [];
+    private $loader;
+    private $twig;
 
     public function __construct($url){
+        $this->loader = new \Twig_Loader_Filesystem(path."Views");
+        $this->twig =   new \Twig_Environment($this->loader, 
+            ['cache' =>  false //'/../tmp'
+        ]);
         $this->url = $url;
     }
     public function get( $path, $rules, $callable, $name){
@@ -44,12 +50,19 @@ class Router {
                 return $route->call();
             }
         }
-        throw new RouterException('No matching routes.');
+        $this->notFound();
     }
     public function url($name, $params = []){
         if(!isset($this->namedRoutes[$name])){
-           return header("HTTP/1.0 404 Not Found");
+            http_response_code(404);
+            echo $this->twig->render('404.twig', array('title' => "Cette page n'existe pas ou plus !"));
+            die;
         }
         $this->namedRoutes[$name]->getUrl($params);
+    }
+    public function notFound(){
+        http_response_code(404);
+        echo $this->twig->render('404.twig', array('title' => "Cette page n'existe pas ou plus !"));
+        die;
     }
 }
